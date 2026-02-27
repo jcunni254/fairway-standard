@@ -1,6 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 import { createClient } from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
+import { sendNewBookingNotification } from "@/lib/email";
 
 export async function POST(req: NextRequest) {
   const { userId } = await auth();
@@ -47,6 +48,30 @@ export async function POST(req: NextRequest) {
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    const [playerResult, providerResult, serviceResult] = await Promise.all([
+      supabase.from("profiles").select("full_name").eq("id", userId).maybeSingle(),
+      supabase.from("profiles").select("full_name, email").eq("id", providerId).maybeSingle(),
+      supabase.from("services").select("title").eq("id", serviceId).maybeSingle(),
+    ]);
+
+    if (providerResult.data?.email) {
+      const d = new Date(scheduledAt);
+      sendNewBookingNotification({
+        to: providerResult.data.email,
+        providerName: providerResult.data.full_name || "Provider",
+        playerName: playerResult.data?.full_name || "A golfer",
+        serviceName: serviceResult.data?.title || "Service",
+        date: d.toLocaleDateString("en-US", {
+          weekday: "long",
+          month: "long",
+          day: "numeric",
+          hour: "numeric",
+          minute: "2-digit",
+        }),
+        price: Number(totalPrice).toFixed(0),
+      }).catch(() => {});
     }
 
     return NextResponse.json(

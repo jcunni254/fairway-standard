@@ -5,7 +5,7 @@ export const resend = process.env.RESEND_API_KEY
   : null;
 
 const FROM_ADDRESS =
-  process.env.RESEND_FROM_EMAIL || "The Fairway Standard <noreply@thefairwaystandard.com>";
+  process.env.RESEND_FROM_EMAIL || "The Fairway Standard <onboarding@resend.dev>";
 
 export async function sendBookingConfirmation({
   to,

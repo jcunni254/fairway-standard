@@ -1,6 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 import { createClient } from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
+import { sendBookingConfirmation } from "@/lib/email";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -27,7 +28,7 @@ export async function PATCH(req: NextRequest, { params }: Props) {
 
   const { data: booking, error: fetchError } = await supabase
     .from("bookings")
-    .select("status, player_id, provider_id")
+    .select("status, player_id, provider_id, service_id, scheduled_at, total_price")
     .eq("id", id)
     .single();
 
@@ -64,6 +65,32 @@ export async function PATCH(req: NextRequest, { params }: Props) {
 
   if (updateError) {
     return NextResponse.json({ error: updateError.message }, { status: 500 });
+  }
+
+  if (newStatus === "confirmed") {
+    const [playerResult, providerResult, serviceResult] = await Promise.all([
+      supabase.from("profiles").select("full_name, email").eq("id", booking.player_id).maybeSingle(),
+      supabase.from("profiles").select("full_name").eq("id", booking.provider_id).maybeSingle(),
+      supabase.from("services").select("title").eq("id", booking.service_id).maybeSingle(),
+    ]);
+
+    if (playerResult.data?.email) {
+      const d = new Date(booking.scheduled_at);
+      sendBookingConfirmation({
+        to: playerResult.data.email,
+        playerName: playerResult.data.full_name || "Golfer",
+        providerName: providerResult.data?.full_name || "Provider",
+        serviceName: serviceResult.data?.title || "Service",
+        date: d.toLocaleDateString("en-US", {
+          weekday: "long",
+          month: "long",
+          day: "numeric",
+          hour: "numeric",
+          minute: "2-digit",
+        }),
+        price: Number(booking.total_price).toFixed(0),
+      }).catch(() => {});
+    }
   }
 
   return NextResponse.json({ message: `Booking ${newStatus}` });
