@@ -15,3 +15,6 @@ export function getStripe(): Stripe {
 }
 
 export const PLATFORM_FEE_PERCENT = 12;
+
+export const CADDIE_SUBSCRIPTION_PRICE = process.env.STRIPE_CADDIE_PRICE_ID || "";
+export const CADDIE_MONTHLY_AMOUNT = 1999;

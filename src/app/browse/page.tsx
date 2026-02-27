@@ -13,6 +13,17 @@ interface SearchParams {
   type?: string;
 }
 
+interface BrowseProvider {
+  id: string;
+  full_name: string;
+  avatar_url: string | null;
+  bio: string | null;
+  hourly_rate: number | null;
+  years_experience: number | null;
+  verified: boolean;
+  _type: "caddie" | "instructor";
+}
+
 export default async function BrowsePage({
   searchParams,
 }: {
@@ -26,54 +37,41 @@ export default async function BrowsePage({
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 
-  let query = supabase
-    .from("profiles")
-    .select("*")
-    .in("role", ["caddie", "instructor"])
-    .order("created_at", { ascending: false });
+  let caddies: BrowseProvider[] = [];
+  let instructors: BrowseProvider[] = [];
 
-  if (filter !== "all") {
-    query = supabase
-      .from("profiles")
-      .select("*")
-      .eq("role", filter)
+  if (filter === "all" || filter === "caddie") {
+    const { data } = await supabase
+      .from("caddies")
+      .select("id, full_name, avatar_url, bio, hourly_rate, years_experience, verified")
+      .eq("subscription_status", "active")
+      .not("hourly_rate", "is", null)
       .order("created_at", { ascending: false });
+    caddies = (data || []).map((c) => ({ ...c, _type: "caddie" as const }));
   }
 
-  const { data: providers } = await query;
+  if (filter === "all" || filter === "instructor") {
+    const { data } = await supabase
+      .from("instructors")
+      .select("id, full_name, avatar_url, bio, hourly_rate, years_experience, verified")
+      .not("hourly_rate", "is", null)
+      .order("created_at", { ascending: false });
+    instructors = (data || []).map((i) => ({ ...i, _type: "instructor" as const }));
+  }
 
-  const providerIds = providers?.map((p) => p.id) || [];
-  let servicesMap: Record<string, { count: number; minPrice: number }> = {};
+  const providers: BrowseProvider[] = [...caddies, ...instructors];
+
+  const providerIds = providers.map((p) => p.id);
   let ratingsMap: Record<string, { avg: number; count: number }> = {};
 
   if (providerIds.length > 0) {
-    const [servicesResult, reviewsResult] = await Promise.all([
-      supabase
-        .from("services")
-        .select("provider_id, price")
-        .in("provider_id", providerIds)
-        .eq("available", true),
-      supabase
-        .from("reviews")
-        .select("provider_id, rating")
-        .in("provider_id", providerIds),
-    ]);
+    const { data: reviews } = await supabase
+      .from("reviews")
+      .select("provider_id, rating")
+      .in("provider_id", providerIds);
 
-    if (servicesResult.data) {
-      for (const s of servicesResult.data) {
-        if (!servicesMap[s.provider_id]) {
-          servicesMap[s.provider_id] = { count: 0, minPrice: Infinity };
-        }
-        servicesMap[s.provider_id].count++;
-        servicesMap[s.provider_id].minPrice = Math.min(
-          servicesMap[s.provider_id].minPrice,
-          Number(s.price)
-        );
-      }
-    }
-
-    if (reviewsResult.data) {
-      for (const r of reviewsResult.data) {
+    if (reviews) {
+      for (const r of reviews) {
         if (!ratingsMap[r.provider_id]) {
           ratingsMap[r.provider_id] = { avg: 0, count: 0 };
         }
@@ -89,18 +87,15 @@ export default async function BrowsePage({
   return (
     <div className="min-h-[calc(100vh-65px)] bg-gray-50">
       <div className="mx-auto max-w-6xl px-6 py-12 sm:py-16">
-        {/* Header */}
         <div className="text-center">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
             Find Your {filter === "caddie" ? "Caddie" : filter === "instructor" ? "Instructor" : "Caddie or Instructor"}
           </h1>
           <p className="mx-auto mt-3 max-w-xl text-lg text-gray-500">
-            Browse experienced providers, compare rates, and book the right fit
-            for your game.
+            Browse experienced providers, compare rates, and book the right fit for your game.
           </p>
         </div>
 
-        {/* Filters */}
         <div className="mt-8 flex justify-center gap-2">
           {[
             { value: "all", label: "All Providers" },
@@ -121,14 +116,11 @@ export default async function BrowsePage({
           ))}
         </div>
 
-        {/* Provider Grid */}
-        {providers && providers.length > 0 ? (
+        {providers.length > 0 ? (
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {providers.map((provider) => {
-              const svc = servicesMap[provider.id];
               const rat = ratingsMap[provider.id];
-              const roleLabel =
-                provider.role === "caddie" ? "Caddie" : "Instructor";
+              const roleLabel = provider._type === "caddie" ? "Caddie" : "Instructor";
               return (
                 <Link
                   key={provider.id}
@@ -159,10 +151,14 @@ export default async function BrowsePage({
                         )}
                       </div>
                       <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-gray-500">
-                        <span className="rounded-full bg-fairway-50 px-2 py-0.5 font-medium text-fairway-700">
+                        <span className={`rounded-full px-2 py-0.5 font-medium ${
+                          provider._type === "caddie"
+                            ? "bg-fairway-50 text-fairway-700"
+                            : "bg-navy-50 text-navy-700"
+                        }`}>
                           {roleLabel}
                         </span>
-                        {provider.years_experience && (
+                        {provider.years_experience && provider.years_experience > 0 && (
                           <span>{provider.years_experience} yrs exp</span>
                         )}
                         {rat && <StarRating rating={rat.avg} count={rat.count} />}
@@ -179,17 +175,11 @@ export default async function BrowsePage({
                       {provider.hourly_rate && (
                         <span className="text-lg font-bold text-fairway-700">
                           ${Number(provider.hourly_rate).toFixed(0)}
-                          <span className="text-sm font-normal text-gray-400">
-                            /hr
-                          </span>
+                          <span className="text-sm font-normal text-gray-400">/hr</span>
                         </span>
                       )}
                     </div>
-                    <div className="text-xs text-gray-400">
-                      {svc
-                        ? `${svc.count} service${svc.count !== 1 ? "s" : ""} · from $${svc.minPrice.toFixed(0)}`
-                        : "View profile →"}
-                    </div>
+                    <span className="text-xs text-gray-400">View profile →</span>
                   </div>
                 </Link>
               );

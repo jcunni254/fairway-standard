@@ -2,11 +2,27 @@
 
 import Link from "next/link";
 import { useUser, SignInButton } from "@clerk/nextjs";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function NavBar() {
   const { isSignedIn, user } = useUser();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [roles, setRoles] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (isSignedIn) {
+      fetch("/api/auth/role")
+        .then((r) => r.json())
+        .then((data) => setRoles(data.roles || []))
+        .catch(() => {});
+    }
+  }, [isSignedIn]);
+
+  const isAdmin = roles.includes("admin");
+  const isCaddie = roles.includes("caddie");
+  const isInstructor = roles.includes("instructor");
+  const isCourseManager = roles.includes("course_manager");
+  const isProvider = isCaddie || isInstructor;
 
   return (
     <nav className="fixed left-0 right-0 top-0 z-50 border-b border-white/10 bg-fairway-950/80 backdrop-blur-md">
@@ -15,46 +31,57 @@ export default function NavBar() {
           The Fairway Standard
         </Link>
 
-        {/* Desktop */}
         <div className="hidden items-center gap-6 sm:flex">
-          <Link
-            href="/browse"
-            className="text-sm font-medium text-gray-300 transition hover:text-white"
-          >
+          <Link href="/browse" className="text-sm font-medium text-gray-300 transition hover:text-white">
             Browse
-          </Link>
-          <Link
-            href="/join"
-            className="text-sm font-medium text-gray-300 transition hover:text-white"
-          >
-            For Providers
           </Link>
 
           {isSignedIn ? (
             <>
-              <Link
-                href="/bookings"
-                className="text-sm font-medium text-gray-300 transition hover:text-white"
-              >
+              <Link href="/bookings" className="text-sm font-medium text-gray-300 transition hover:text-white">
                 My Bookings
               </Link>
+              {isProvider && (
+                <Link href="/dashboard" className="text-sm font-medium text-gray-300 transition hover:text-white">
+                  Dashboard
+                </Link>
+              )}
+              {isCourseManager && (
+                <Link href="/course" className="text-sm font-medium text-gray-300 transition hover:text-white">
+                  My Course
+                </Link>
+              )}
+              {isAdmin && (
+                <Link href="/admin" className="text-sm font-medium text-yellow-400 transition hover:text-yellow-300">
+                  Admin
+                </Link>
+              )}
+              {!isProvider && !isCourseManager && (
+                <Link href="/join" className="text-sm font-medium text-gray-300 transition hover:text-white">
+                  Become a Provider
+                </Link>
+              )}
               <Link
                 href="/dashboard"
                 className="rounded-lg bg-fairway-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-fairway-500"
               >
-                Dashboard
+                {user?.firstName || "Account"}
               </Link>
             </>
           ) : (
-            <SignInButton mode="modal">
-              <button className="rounded-lg bg-fairway-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-fairway-500">
-                Sign In
-              </button>
-            </SignInButton>
+            <>
+              <Link href="/join" className="text-sm font-medium text-gray-300 transition hover:text-white">
+                For Providers
+              </Link>
+              <SignInButton mode="modal">
+                <button className="rounded-lg bg-fairway-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-fairway-500">
+                  Sign In
+                </button>
+              </SignInButton>
+            </>
           )}
         </div>
 
-        {/* Mobile toggle */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
           className="text-white sm:hidden"
@@ -70,47 +97,24 @@ export default function NavBar() {
         </button>
       </div>
 
-      {/* Mobile menu */}
       {mobileOpen && (
         <div className="border-t border-white/10 bg-fairway-950/95 px-6 pb-4 sm:hidden">
           <div className="flex flex-col gap-3 pt-3">
-            <Link
-              href="/browse"
-              onClick={() => setMobileOpen(false)}
-              className="text-sm font-medium text-gray-300"
-            >
-              Browse Providers
-            </Link>
-            <Link
-              href="/join"
-              onClick={() => setMobileOpen(false)}
-              className="text-sm font-medium text-gray-300"
-            >
-              For Providers
-            </Link>
+            <Link href="/browse" onClick={() => setMobileOpen(false)} className="text-sm font-medium text-gray-300">Browse</Link>
             {isSignedIn ? (
               <>
-                <Link
-                  href="/bookings"
-                  onClick={() => setMobileOpen(false)}
-                  className="text-sm font-medium text-gray-300"
-                >
-                  My Bookings
-                </Link>
-                <Link
-                  href="/dashboard"
-                  onClick={() => setMobileOpen(false)}
-                  className="text-sm font-medium text-gray-300"
-                >
-                  Dashboard
-                </Link>
+                <Link href="/bookings" onClick={() => setMobileOpen(false)} className="text-sm font-medium text-gray-300">My Bookings</Link>
+                {isProvider && <Link href="/dashboard" onClick={() => setMobileOpen(false)} className="text-sm font-medium text-gray-300">Dashboard</Link>}
+                {isCourseManager && <Link href="/course" onClick={() => setMobileOpen(false)} className="text-sm font-medium text-gray-300">My Course</Link>}
+                {isAdmin && <Link href="/admin" onClick={() => setMobileOpen(false)} className="text-sm font-medium text-yellow-400">Admin</Link>}
               </>
             ) : (
-              <SignInButton mode="modal">
-                <button className="mt-2 w-full rounded-lg bg-fairway-600 px-4 py-2 text-sm font-semibold text-white">
-                  Sign In
-                </button>
-              </SignInButton>
+              <>
+                <Link href="/join" onClick={() => setMobileOpen(false)} className="text-sm font-medium text-gray-300">For Providers</Link>
+                <SignInButton mode="modal">
+                  <button className="mt-2 w-full rounded-lg bg-fairway-600 px-4 py-2 text-sm font-semibold text-white">Sign In</button>
+                </SignInButton>
+              </>
             )}
           </div>
         </div>
