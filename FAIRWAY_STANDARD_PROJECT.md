@@ -55,14 +55,23 @@ Keep these in `.env.local` (and Vercel env vars). Never commit secrets.
 
 ## Current Status
 
-- Node.js v22 installed at `~/.local/node/bin` (added to `~/.zshrc`)
-- App scaffolded, dependencies installed, dev server verified at HTTP 200
+- Node.js v22, GitHub CLI, Vercel CLI installed
+- App scaffolded, dependencies installed, dev server verified
 - Clerk connected (instance: `above-bat-30.clerk.accounts.dev`)
 - Supabase connected (project: `yucnwzlbhrytdiwqgukw`)
 - Clerk ↔ Supabase integration active (third-party auth provider)
-- Database tables created: profiles, courses, services, bookings, reviews
-- RLS policies active on all tables (13 policies total)
-- Performance indexes created on foreign keys and status columns
+- Database tables: profiles, courses, services, bookings, reviews, waitlist
+- RLS policies active on all tables (13+ policies)
+- Landing page live with waitlist form (connected to Supabase)
+- GitHub repo: github.com/jcunni254/fairway-standard
+- **LIVE at: https://fairway-standard.vercel.app**
+
+## Brand System
+
+- **Colors:** fairway green (primary), navy (secondary), sand gold (accent)
+- **Font:** Inter (Google Fonts) — clean, modern, premium
+- **Tone:** Professional but accessible, golf heritage meets modern tech
+- **No logo yet** — name styled in Inter Bold is the current wordmark
 
 ## Using Cursor as Central Knowledge Base
 
