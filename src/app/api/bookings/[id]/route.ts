@@ -18,7 +18,7 @@ export async function PATCH(req: NextRequest, { params }: Props) {
 
   const validTransitions: Record<string, string[]> = {
     pending: ["confirmed", "declined", "cancelled"],
-    confirmed: ["cancelled"],
+    confirmed: ["completed", "cancelled"],
   };
 
   const supabase = createClient(

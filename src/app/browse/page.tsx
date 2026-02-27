@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import Link from "next/link";
+import StarRating from "@/components/StarRating";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -43,16 +44,23 @@ export default async function BrowsePage({
 
   const providerIds = providers?.map((p) => p.id) || [];
   let servicesMap: Record<string, { count: number; minPrice: number }> = {};
+  let ratingsMap: Record<string, { avg: number; count: number }> = {};
 
   if (providerIds.length > 0) {
-    const { data: services } = await supabase
-      .from("services")
-      .select("provider_id, price")
-      .in("provider_id", providerIds)
-      .eq("available", true);
+    const [servicesResult, reviewsResult] = await Promise.all([
+      supabase
+        .from("services")
+        .select("provider_id, price")
+        .in("provider_id", providerIds)
+        .eq("available", true),
+      supabase
+        .from("reviews")
+        .select("provider_id, rating")
+        .in("provider_id", providerIds),
+    ]);
 
-    if (services) {
-      for (const s of services) {
+    if (servicesResult.data) {
+      for (const s of servicesResult.data) {
         if (!servicesMap[s.provider_id]) {
           servicesMap[s.provider_id] = { count: 0, minPrice: Infinity };
         }
@@ -61,6 +69,19 @@ export default async function BrowsePage({
           servicesMap[s.provider_id].minPrice,
           Number(s.price)
         );
+      }
+    }
+
+    if (reviewsResult.data) {
+      for (const r of reviewsResult.data) {
+        if (!ratingsMap[r.provider_id]) {
+          ratingsMap[r.provider_id] = { avg: 0, count: 0 };
+        }
+        ratingsMap[r.provider_id].count++;
+        ratingsMap[r.provider_id].avg += r.rating;
+      }
+      for (const pid of Object.keys(ratingsMap)) {
+        ratingsMap[pid].avg = ratingsMap[pid].avg / ratingsMap[pid].count;
       }
     }
   }
@@ -105,6 +126,7 @@ export default async function BrowsePage({
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {providers.map((provider) => {
               const svc = servicesMap[provider.id];
+              const rat = ratingsMap[provider.id];
               const roleLabel =
                 provider.role === "caddie" ? "Caddie" : "Instructor";
               return (
@@ -126,9 +148,16 @@ export default async function BrowsePage({
                       </div>
                     )}
                     <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900 group-hover:text-fairway-700">
-                        {provider.full_name}
-                      </h3>
+                      <div className="flex items-center gap-2">
+                        <h3 className="font-semibold text-gray-900 group-hover:text-fairway-700">
+                          {provider.full_name}
+                        </h3>
+                        {provider.verified && (
+                          <svg className="h-4 w-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                          </svg>
+                        )}
+                      </div>
                       <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-gray-500">
                         <span className="rounded-full bg-fairway-50 px-2 py-0.5 font-medium text-fairway-700">
                           {roleLabel}
@@ -136,6 +165,7 @@ export default async function BrowsePage({
                         {provider.years_experience && (
                           <span>{provider.years_experience} yrs exp</span>
                         )}
+                        {rat && <StarRating rating={rat.avg} count={rat.count} />}
                       </div>
                     </div>
                   </div>

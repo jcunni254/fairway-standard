@@ -48,7 +48,7 @@ export default async function BookPage({ params }: Props) {
 
   const { data: provider } = await supabase
     .from("profiles")
-    .select("full_name, avatar_url, role")
+    .select("full_name, avatar_url, role, stripe_account_id")
     .eq("id", service.provider_id)
     .maybeSingle();
 
@@ -90,6 +90,7 @@ export default async function BookPage({ params }: Props) {
               }}
               providerName={provider.full_name}
               providerId={service.provider_id}
+              hasStripe={!!provider.stripe_account_id}
             />
           </SignedIn>
         </div>

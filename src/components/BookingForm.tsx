@@ -16,9 +16,10 @@ interface Props {
   service: Service;
   providerName: string;
   providerId: string;
+  hasStripe?: boolean;
 }
 
-export default function BookingForm({ service, providerName, providerId }: Props) {
+export default function BookingForm({ service, providerName, providerId, hasStripe }: Props) {
   const { session } = useSession();
   const { user } = useUser();
   const router = useRouter();
@@ -37,6 +38,30 @@ export default function BookingForm({ service, providerName, providerId }: Props
     setErrorMsg("");
 
     const scheduledAt = new Date(`${date}T${time}:00`).toISOString();
+
+    if (hasStripe) {
+      const res = await fetch("/api/stripe/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          serviceId: service.id,
+          providerId,
+          scheduledAt,
+          notes: notes || null,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setStatus("error");
+        setErrorMsg(data.error || "Something went wrong");
+        return;
+      }
+
+      window.location.href = data.url;
+      return;
+    }
 
     const res = await fetch("/api/bookings", {
       method: "POST",
@@ -147,13 +172,16 @@ export default function BookingForm({ service, providerName, providerId }: Props
         className="w-full rounded-xl bg-fairway-700 px-6 py-4 text-lg font-semibold text-white shadow-sm transition hover:bg-fairway-800 disabled:opacity-50"
       >
         {status === "submitting"
-          ? "Requesting..."
-          : `Request Booking — $${Number(service.price).toFixed(0)}`}
+          ? hasStripe ? "Redirecting to payment..." : "Requesting..."
+          : hasStripe
+            ? `Pay & Book — $${Number(service.price).toFixed(0)}`
+            : `Request Booking — $${Number(service.price).toFixed(0)}`}
       </button>
 
       <p className="text-center text-xs text-gray-400">
-        The provider will confirm or decline your request. No payment until
-        confirmed.
+        {hasStripe
+          ? "You'll be redirected to Stripe for secure payment."
+          : "The provider will confirm or decline your request."}
       </p>
     </form>
   );

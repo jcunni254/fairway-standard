@@ -206,19 +206,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-gray-100 bg-white py-10">
-        <div className="mx-auto max-w-5xl px-6 text-center">
-          <p className="font-semibold text-gray-900">The Fairway Standard</p>
-          <p className="mt-2 text-sm text-gray-400">
-            Premium golf services at fair prices.
-          </p>
-          <p className="mt-6 text-xs text-gray-300">
-            &copy; {new Date().getFullYear()} The Fairway Standard. All rights
-            reserved.
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }

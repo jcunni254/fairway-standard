@@ -4,6 +4,7 @@ import { createClient } from "@supabase/supabase-js";
 import { SignOutButton } from "@clerk/nextjs";
 import Link from "next/link";
 import BookingActions from "@/components/BookingActions";
+import StripeConnectButton from "@/components/StripeConnectButton";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -43,6 +44,17 @@ export default async function DashboardPage() {
     bookings?.filter((b) => b.status === "pending") || [];
   const upcomingBookings =
     bookings?.filter((b) => b.status === "confirmed") || [];
+  const completedBookings =
+    bookings?.filter((b) => b.status === "completed") || [];
+
+  const totalEarnings = completedBookings.reduce(
+    (sum, b) => sum + Number(b.total_price),
+    0
+  );
+  const pendingEarnings = upcomingBookings.reduce(
+    (sum, b) => sum + Number(b.total_price),
+    0
+  );
 
   const playerIds = [
     ...new Set(bookings?.map((b) => b.player_id) || []),
@@ -201,6 +213,54 @@ export default async function DashboardPage() {
                         Confirmed
                       </span>
                     </div>
+                    <div className="mt-4">
+                      <BookingActions
+                        bookingId={booking.id}
+                        role="provider"
+                        currentStatus={booking.status}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Completed */}
+        {completedBookings.length > 0 && (
+          <div className="mt-8">
+            <h2 className="text-lg font-bold text-gray-900">
+              Completed ({completedBookings.length})
+            </h2>
+            <div className="mt-4 space-y-4">
+              {completedBookings.slice(0, 5).map((booking) => {
+                const player = playersMap[booking.player_id];
+                const service = servicesMap[booking.service_id];
+                const d = new Date(booking.scheduled_at);
+                return (
+                  <div
+                    key={booking.id}
+                    className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
+                  >
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <h3 className="font-semibold text-gray-900">
+                          {service?.title || "Service"} — $
+                          {Number(booking.total_price).toFixed(0)}
+                        </h3>
+                        <p className="mt-1 text-sm text-gray-500">
+                          {player?.full_name || "Player"} ·{" "}
+                          {d.toLocaleDateString("en-US", {
+                            month: "short",
+                            day: "numeric",
+                          })}
+                        </p>
+                      </div>
+                      <span className="rounded-full bg-fairway-50 px-3 py-1 text-xs font-semibold text-fairway-700">
+                        Completed
+                      </span>
+                    </div>
                   </div>
                 );
               })}
@@ -229,6 +289,45 @@ export default async function DashboardPage() {
               View →
             </Link>
           </p>
+        </div>
+
+        {/* Earnings */}
+        <div className="mt-8 grid gap-4 sm:grid-cols-3">
+          <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+            <p className="text-sm font-medium text-gray-500">Total Earned</p>
+            <p className="mt-1 text-2xl font-bold text-fairway-700">
+              ${totalEarnings.toFixed(0)}
+            </p>
+            <p className="mt-1 text-xs text-gray-400">
+              {completedBookings.length} completed
+            </p>
+          </div>
+          <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+            <p className="text-sm font-medium text-gray-500">Upcoming</p>
+            <p className="mt-1 text-2xl font-bold text-gray-900">
+              ${pendingEarnings.toFixed(0)}
+            </p>
+            <p className="mt-1 text-xs text-gray-400">
+              {upcomingBookings.length} confirmed
+            </p>
+          </div>
+          <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+            <p className="text-sm font-medium text-gray-500">Pending Requests</p>
+            <p className="mt-1 text-2xl font-bold text-yellow-600">
+              {pendingBookings.length}
+            </p>
+            <p className="mt-1 text-xs text-gray-400">
+              awaiting your response
+            </p>
+          </div>
+        </div>
+
+        {/* Payments */}
+        <div className="mt-8">
+          <h2 className="text-lg font-bold text-gray-900">Payments</h2>
+          <div className="mt-4">
+            <StripeConnectButton connected={!!profile.stripe_account_id} />
+          </div>
         </div>
 
         {/* Services */}

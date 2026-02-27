@@ -131,6 +131,16 @@ export default async function BookingsPage() {
                       />
                     </div>
                   )}
+                  {booking.status === "completed" && (
+                    <div className="mt-4 border-t border-gray-100 pt-4">
+                      <Link
+                        href={`/review/${booking.id}`}
+                        className="inline-block rounded-lg bg-fairway-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-fairway-800"
+                      >
+                        Leave a Review
+                      </Link>
+                    </div>
+                  )}
                 </div>
               );
             })}

@@ -1,6 +1,7 @@
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import NavBar from "@/components/NavBar";
+import Footer from "@/components/Footer";
 import { PostHogProvider } from "./providers";
 import "./globals.css";
 
@@ -28,6 +29,7 @@ export default function RootLayout({
           <PostHogProvider>
             <NavBar />
             <main className="pt-[65px]">{children}</main>
+            <Footer />
           </PostHogProvider>
         </body>
       </html>

@@ -69,13 +69,22 @@ export default function BookingActions({
 
   if (currentStatus === "confirmed") {
     return (
-      <button
-        onClick={() => updateStatus("cancelled")}
-        disabled={loading !== null}
-        className="rounded-lg border border-red-200 px-4 py-2 text-sm font-medium text-red-600 transition hover:bg-red-50 disabled:opacity-50"
-      >
-        {loading === "cancelled" ? "Cancelling..." : "Cancel Booking"}
-      </button>
+      <div className="flex gap-3">
+        <button
+          onClick={() => updateStatus("completed")}
+          disabled={loading !== null}
+          className="flex-1 rounded-lg bg-fairway-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-fairway-800 disabled:opacity-50"
+        >
+          {loading === "completed" ? "Completing..." : "Mark Completed"}
+        </button>
+        <button
+          onClick={() => updateStatus("cancelled")}
+          disabled={loading !== null}
+          className="rounded-lg border border-red-200 px-4 py-2 text-sm font-medium text-red-600 transition hover:bg-red-50 disabled:opacity-50"
+        >
+          {loading === "cancelled" ? "Cancelling..." : "Cancel"}
+        </button>
+      </div>
     );
   }
 
