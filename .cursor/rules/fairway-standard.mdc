@@ -1,0 +1,22 @@
+---
+description: The Fairway Standard — project context, tech stack, and conventions
+alwaysApply: true
+---
+
+# The Fairway Standard
+
+Golf services startup for booking caddies and golf instructors at lower rates.
+
+## Tech Stack
+
+- **Next.js 15** (App Router, TypeScript, Tailwind)
+- **Clerk** — Auth & user management
+- **Supabase** — Database, RLS policies
+- **Vercel** — Hosting
+- **Resend** — Emails | **PostHog** — Analytics | **Sentry** — Errors | **Cloudflare** — Security/DNS
+
+## Key Files
+
+- `FAIRWAY_STANDARD_PROJECT.md` — Full project knowledge base
+- `src/lib/supabase.ts` — Clerk-aware Supabase client (`createClerkSupabaseClient(getToken)`)
+- `SETUP_NEXT_STEPS.md` — Post-scaffold setup instructions
