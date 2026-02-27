@@ -120,10 +120,16 @@ export default async function ProviderPage({ params }: Props) {
                         {service.duration_minutes} minutes
                       </p>
                     </div>
-                    <div className="text-right">
+                    <div className="flex flex-col items-end gap-2">
                       <p className="text-xl font-bold text-fairway-700">
                         ${Number(service.price).toFixed(0)}
                       </p>
+                      <Link
+                        href={`/book/${service.id}`}
+                        className="rounded-lg bg-fairway-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-fairway-800"
+                      >
+                        Book Now
+                      </Link>
                     </div>
                   </div>
                 </div>

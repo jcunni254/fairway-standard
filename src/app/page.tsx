@@ -1,3 +1,4 @@
+import Link from "next/link";
 import WaitlistForm from "@/components/WaitlistForm";
 
 export default function Home() {
@@ -7,9 +8,6 @@ export default function Home() {
       <section className="relative overflow-hidden bg-gradient-to-br from-fairway-950 via-fairway-900 to-navy-900">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-fairway-800/30 via-transparent to-transparent" />
         <div className="relative mx-auto max-w-5xl px-6 pb-20 pt-24 text-center sm:pb-28 sm:pt-32">
-          <p className="mb-4 inline-block rounded-full border border-fairway-400/30 bg-fairway-400/10 px-4 py-1.5 text-sm font-medium text-fairway-300">
-            Coming Soon — Join the Waitlist
-          </p>
           <h1 className="font-display text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
             Premium Golf Services,{" "}
             <span className="text-fairway-400">Lower Rates</span>
@@ -19,8 +17,19 @@ export default function Home() {
             qualified instructors at prices that make sense. Better rounds,
             better value.
           </p>
-          <div className="mt-10">
-            <WaitlistForm />
+          <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+            <Link
+              href="/browse"
+              className="rounded-xl bg-fairway-600 px-8 py-4 text-lg font-semibold text-white shadow-lg transition hover:bg-fairway-500"
+            >
+              Browse Providers
+            </Link>
+            <Link
+              href="/join"
+              className="rounded-xl border border-white/20 px-8 py-4 text-lg font-semibold text-white transition hover:bg-white/10"
+            >
+              Join as a Provider
+            </Link>
           </div>
         </div>
       </section>
