@@ -1,21 +1,12 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-const isAdminRoute = createRouteMatcher(["/admin(.*)"]);
 const isCourseRoute = createRouteMatcher(["/course(.*)"]);
 const isDashboardRoute = createRouteMatcher(["/dashboard(.*)"]);
 const isBookingsRoute = createRouteMatcher(["/bookings(.*)"]);
 
-const ADMIN_USER_IDS = (process.env.ADMIN_USER_IDS || "").split(",").filter(Boolean);
-
 export default clerkMiddleware(async (auth, req) => {
   const { userId } = await auth();
-
-  if (isAdminRoute(req)) {
-    if (!userId || !ADMIN_USER_IDS.includes(userId)) {
-      return NextResponse.redirect(new URL("/", req.url));
-    }
-  }
 
   if (isCourseRoute(req) || isDashboardRoute(req) || isBookingsRoute(req)) {
     if (!userId) {

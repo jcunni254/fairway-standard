@@ -1,7 +1,42 @@
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import { createClient } from "@supabase/supabase-js";
 import Link from "next/link";
 import WaitlistForm from "@/components/WaitlistForm";
 
-export default function Home() {
+const ADMIN_USER_IDS = (process.env.ADMIN_USER_IDS || "").split(",").filter(Boolean);
+
+export default async function Home() {
+  const { userId } = await auth();
+
+  if (userId) {
+    if (ADMIN_USER_IDS.includes(userId)) {
+      redirect("/admin");
+    }
+
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    );
+
+    const { data: roles } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", userId);
+
+    const roleList = roles?.map((r) => r.role) || [];
+
+    if (roleList.includes("caddie") || roleList.includes("instructor")) {
+      redirect("/dashboard");
+    }
+    if (roleList.includes("course_manager")) {
+      redirect("/course");
+    }
+    if (roleList.includes("player")) {
+      redirect("/browse");
+    }
+  }
+
   return (
     <div className="flex flex-col">
       {/* Hero */}
@@ -98,7 +133,6 @@ export default function Home() {
             </p>
           </div>
           <div className="mt-16 grid gap-8 lg:grid-cols-2">
-            {/* Players */}
             <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm sm:p-10">
               <div className="inline-flex items-center gap-2 rounded-full bg-fairway-50 px-4 py-1.5 text-sm font-semibold text-fairway-700">
                 🏌️ For Players
@@ -120,7 +154,6 @@ export default function Home() {
                 ))}
               </ul>
             </div>
-            {/* Providers */}
             <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm sm:p-10">
               <div className="inline-flex items-center gap-2 rounded-full bg-navy-50 px-4 py-1.5 text-sm font-semibold text-navy-700">
                 🎓 For Caddies & Instructors
@@ -205,7 +238,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
     </div>
   );
 }
