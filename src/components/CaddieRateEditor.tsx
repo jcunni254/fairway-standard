@@ -40,22 +40,22 @@ export default function CaddieRateEditor({ caddieId, currentRate, verified }: Pr
   return (
     <div className="flex items-center gap-2">
       <div className="flex items-center gap-1">
-        <span className="text-sm text-gray-500">$</span>
+        <span className="text-sm text-brand-muted">$</span>
         <input
           type="number"
           min="0"
           step="1"
           value={rate}
           onChange={(e) => setRate(e.target.value)}
-          className="w-20 rounded border border-gray-300 px-2 py-1 text-sm"
+          className="w-20 rounded border border-brand-border px-2 py-1 text-sm"
           placeholder="0"
         />
-        <span className="text-xs text-gray-400">/hr</span>
+        <span className="text-xs text-brand-muted">/hr</span>
       </div>
       <button
         onClick={saveRate}
         disabled={saving || !rate}
-        className="rounded bg-fairway-700 px-2 py-1 text-xs font-medium text-white hover:bg-fairway-800 disabled:opacity-50"
+        className="rounded bg-brand-green-600 px-2 py-1 text-xs font-medium text-white hover:bg-brand-green-700 disabled:opacity-50"
       >
         Set
       </button>
@@ -65,7 +65,7 @@ export default function CaddieRateEditor({ caddieId, currentRate, verified }: Pr
         className={`rounded px-2 py-1 text-xs font-medium ${
           verified
             ? "bg-blue-100 text-blue-700 hover:bg-blue-200"
-            : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+            : "bg-gray-100 text-brand-charcoal/70 hover:bg-gray-200"
         }`}
       >
         {verified ? "Verified" : "Verify"}

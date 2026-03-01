@@ -42,31 +42,31 @@ export default async function CourseBookingsPage() {
   const statusStyles: Record<string, string> = {
     pending: "bg-yellow-50 text-yellow-700",
     confirmed: "bg-green-50 text-green-700",
-    completed: "bg-fairway-50 text-fairway-700",
+    completed: "bg-brand-green-50 text-brand-green-700",
     declined: "bg-red-50 text-red-700",
-    cancelled: "bg-gray-50 text-gray-500",
+    cancelled: "bg-brand-cream text-brand-muted",
   };
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900">Bookings at {course.name}</h1>
-      <p className="mt-1 text-gray-500">All bookings for your affiliated instructors.</p>
+      <h1 className="text-2xl font-bold text-brand-charcoal">Bookings at {course.name}</h1>
+      <p className="mt-1 text-brand-muted">All bookings for your affiliated instructors.</p>
 
-      <div className="mt-8 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+      <div className="mt-8 overflow-hidden rounded-xl border border-brand-border bg-white shadow-sm">
         <table className="w-full text-left text-sm">
-          <thead className="border-b border-gray-200 bg-gray-50">
+          <thead className="border-b border-brand-border bg-brand-cream">
             <tr>
-              <th className="px-4 py-3 font-medium text-gray-600">Instructor</th>
-              <th className="px-4 py-3 font-medium text-gray-600">Status</th>
-              <th className="px-4 py-3 font-medium text-gray-600">Price</th>
-              <th className="px-4 py-3 font-medium text-gray-600">Scheduled</th>
+              <th className="px-4 py-3 font-medium text-brand-charcoal/70">Instructor</th>
+              <th className="px-4 py-3 font-medium text-brand-charcoal/70">Status</th>
+              <th className="px-4 py-3 font-medium text-brand-charcoal/70">Price</th>
+              <th className="px-4 py-3 font-medium text-brand-charcoal/70">Scheduled</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
             {bookings.length > 0 ? (
               bookings.map((b) => (
                 <tr key={b.id as string}>
-                  <td className="px-4 py-3 font-medium text-gray-900">
+                  <td className="px-4 py-3 font-medium text-brand-charcoal">
                     {instructorMap[b.provider_id as string] || "Unknown"}
                   </td>
                   <td className="px-4 py-3">
@@ -74,8 +74,8 @@ export default async function CourseBookingsPage() {
                       {b.status as string}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-gray-900">${Number(b.total_price).toFixed(0)}</td>
-                  <td className="px-4 py-3 text-gray-500 text-xs">
+                  <td className="px-4 py-3 text-brand-charcoal">${Number(b.total_price).toFixed(0)}</td>
+                  <td className="px-4 py-3 text-brand-muted text-xs">
                     {new Date(b.scheduled_at as string).toLocaleDateString("en-US", {
                       month: "short", day: "numeric", hour: "numeric", minute: "2-digit",
                     })}
@@ -84,7 +84,7 @@ export default async function CourseBookingsPage() {
               ))
             ) : (
               <tr>
-                <td colSpan={4} className="px-4 py-8 text-center text-gray-400">
+                <td colSpan={4} className="px-4 py-8 text-center text-brand-muted">
                   No bookings yet
                 </td>
               </tr>

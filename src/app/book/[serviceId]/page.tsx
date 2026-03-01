@@ -58,22 +58,22 @@ export default async function BookPage({ params }: Props) {
     <div className="min-h-[calc(100vh-65px)] bg-gradient-to-b from-gray-50 to-white">
       <div className="mx-auto max-w-xl px-6 py-12 sm:py-20">
         <div className="text-center">
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
+          <h1 className="text-2xl font-bold tracking-tight text-brand-charcoal sm:text-3xl">
             Book This Service
           </h1>
-          <p className="mt-2 text-gray-500">
+          <p className="mt-2 text-brand-muted">
             Request a booking with {provider.full_name}
           </p>
         </div>
 
-        <div className="mt-8 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
+        <div className="mt-8 rounded-2xl border border-brand-border bg-white p-6 shadow-sm sm:p-8">
           <SignedOut>
             <div className="py-8 text-center">
-              <p className="text-gray-600">
+              <p className="text-brand-charcoal/70">
                 Sign in to request a booking
               </p>
               <SignUpButton mode="modal" forceRedirectUrl={`/book/${serviceId}`}>
-                <button className="mt-4 rounded-xl bg-fairway-700 px-8 py-3 font-semibold text-white transition hover:bg-fairway-800">
+                <button className="mt-4 rounded-xl bg-brand-green-600 px-8 py-3 font-semibold text-white transition hover:bg-brand-green-700">
                   Sign Up / Sign In
                 </button>
               </SignUpButton>

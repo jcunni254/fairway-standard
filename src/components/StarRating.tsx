@@ -23,7 +23,7 @@ export default function StarRating({ rating, count, size = "sm" }: Props) {
         ))}
       </div>
       {count !== undefined && (
-        <span className={`text-gray-400 ${size === "md" ? "text-sm" : "text-xs"}`}>
+        <span className={`text-brand-muted ${size === "md" ? "text-sm" : "text-xs"}`}>
           ({count})
         </span>
       )}

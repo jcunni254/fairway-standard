@@ -52,14 +52,14 @@ export default function BookingActions({
         <button
           onClick={() => updateStatus("confirmed")}
           disabled={loading !== null}
-          className="flex-1 rounded-lg bg-fairway-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-fairway-800 disabled:opacity-50"
+          className="flex-1 rounded-lg bg-brand-green-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-green-700 disabled:opacity-50"
         >
           {loading === "confirmed" ? "Confirming..." : "Accept"}
         </button>
         <button
           onClick={() => updateStatus("declined")}
           disabled={loading !== null}
-          className="flex-1 rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-600 transition hover:bg-gray-50 disabled:opacity-50"
+          className="flex-1 rounded-lg border border-brand-border px-4 py-2 text-sm font-medium text-brand-charcoal/70 transition hover:bg-brand-cream disabled:opacity-50"
         >
           {loading === "declined" ? "Declining..." : "Decline"}
         </button>
@@ -73,7 +73,7 @@ export default function BookingActions({
         <button
           onClick={() => updateStatus("completed")}
           disabled={loading !== null}
-          className="flex-1 rounded-lg bg-fairway-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-fairway-800 disabled:opacity-50"
+          className="flex-1 rounded-lg bg-brand-green-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-green-700 disabled:opacity-50"
         >
           {loading === "completed" ? "Completing..." : "Mark Completed"}
         </button>

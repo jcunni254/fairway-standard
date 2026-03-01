@@ -42,10 +42,10 @@ export default async function OnboardingPage() {
     <div className="min-h-[calc(100vh-65px)] bg-gradient-to-b from-gray-50 to-white">
       <div className="mx-auto max-w-2xl px-6 py-16 sm:py-24">
         <div className="text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+          <h1 className="text-3xl font-bold tracking-tight text-brand-charcoal">
             Welcome to The Fairway Standard
           </h1>
-          <p className="mt-3 text-gray-500">
+          <p className="mt-3 text-brand-muted">
             Tell us who you are so we can set up the right experience for you.
           </p>
         </div>

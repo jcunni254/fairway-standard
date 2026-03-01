@@ -1,9 +1,21 @@
 import { ClerkProvider } from "@clerk/nextjs";
+import { Inter, Playfair_Display } from "next/font/google";
 import type { Metadata } from "next";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import { PostHogProvider } from "./providers";
 import "./globals.css";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  weight: ["400", "500", "600", "700", "800"],
+});
 
 export const metadata: Metadata = {
   title: "The Fairway Standard — Book Caddies & Golf Instructors",
@@ -24,8 +36,8 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body className="antialiased">
+      <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
+        <body className="font-sans antialiased">
           <PostHogProvider>
             <NavBar />
             <main className="pt-[65px]">{children}</main>

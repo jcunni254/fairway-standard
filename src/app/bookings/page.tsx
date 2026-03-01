@@ -54,15 +54,15 @@ export default async function BookingsPage() {
     pending: "bg-yellow-50 text-yellow-700 border-yellow-200",
     confirmed: "bg-green-50 text-green-700 border-green-200",
     declined: "bg-red-50 text-red-700 border-red-200",
-    cancelled: "bg-gray-50 text-gray-500 border-gray-200",
-    completed: "bg-fairway-50 text-fairway-700 border-fairway-200",
+    cancelled: "bg-brand-cream text-brand-muted border-brand-border",
+    completed: "bg-brand-green-50 text-brand-green-700 border-brand-green-200",
   };
 
   return (
-    <div className="min-h-[calc(100vh-65px)] bg-gray-50">
+    <div className="min-h-[calc(100vh-65px)] bg-brand-cream">
       <div className="mx-auto max-w-3xl px-6 py-12">
-        <h1 className="text-2xl font-bold text-gray-900">My Bookings</h1>
-        <p className="mt-1 text-gray-500">
+        <h1 className="font-display text-2xl font-bold text-brand-charcoal">My Bookings</h1>
+        <p className="mt-1 text-brand-muted">
           Track your caddie and instructor bookings.
         </p>
 
@@ -75,18 +75,18 @@ export default async function BookingsPage() {
               return (
                 <div
                   key={booking.id}
-                  className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
+                  className="rounded-xl border border-brand-border bg-white p-5 shadow-sm"
                 >
                   <div className="flex items-start justify-between">
                     <div>
-                      <h3 className="font-semibold text-gray-900">
+                      <h3 className="font-semibold text-brand-charcoal">
                         {service?.title || "Service"}
                       </h3>
-                      <p className="mt-1 text-sm text-gray-500">
+                      <p className="mt-1 text-sm text-brand-muted">
                         with{" "}
                         <Link
                           href={`/providers/${booking.provider_id}`}
-                          className="text-fairway-600 hover:underline"
+                          className="text-brand-green-600 hover:underline"
                         >
                           {provider?.full_name || "Provider"}
                         </Link>
@@ -98,7 +98,7 @@ export default async function BookingsPage() {
                       {booking.status}
                     </span>
                   </div>
-                  <div className="mt-3 flex flex-wrap gap-4 text-sm text-gray-500">
+                  <div className="mt-3 flex flex-wrap gap-4 text-sm text-brand-muted">
                     <span>
                       {scheduledDate.toLocaleDateString("en-US", {
                         weekday: "short",
@@ -112,18 +112,18 @@ export default async function BookingsPage() {
                         minute: "2-digit",
                       })}
                     </span>
-                    <span className="font-medium text-gray-700">
+                    <span className="font-medium text-brand-charcoal">
                       ${Number(booking.total_price).toFixed(0)}
                     </span>
                   </div>
                   {booking.notes && (
-                    <p className="mt-3 rounded-lg bg-gray-50 p-3 text-sm text-gray-500">
+                    <p className="mt-3 rounded-lg bg-brand-cream p-3 text-sm text-brand-muted">
                       {booking.notes}
                     </p>
                   )}
                   {(booking.status === "pending" ||
                     booking.status === "confirmed") && (
-                    <div className="mt-4 border-t border-gray-100 pt-4">
+                    <div className="mt-4 border-t border-brand-border/50 pt-4">
                       <BookingActions
                         bookingId={booking.id}
                         role="player"
@@ -132,10 +132,10 @@ export default async function BookingsPage() {
                     </div>
                   )}
                   {booking.status === "completed" && (
-                    <div className="mt-4 border-t border-gray-100 pt-4">
+                    <div className="mt-4 border-t border-brand-border/50 pt-4">
                       <Link
                         href={`/review/${booking.id}`}
-                        className="inline-block rounded-lg bg-fairway-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-fairway-800"
+                        className="inline-block rounded-lg bg-brand-green-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-green-700"
                       >
                         Leave a Review
                       </Link>
@@ -146,16 +146,16 @@ export default async function BookingsPage() {
             })}
           </div>
         ) : (
-          <div className="mt-12 rounded-2xl border border-dashed border-gray-300 p-12 text-center">
-            <p className="text-lg font-medium text-gray-400">
+          <div className="mt-12 rounded-2xl border border-dashed border-brand-border p-12 text-center">
+            <p className="text-lg font-medium text-brand-muted">
               No bookings yet
             </p>
-            <p className="mt-2 text-sm text-gray-400">
+            <p className="mt-2 text-sm text-brand-muted">
               Browse providers and book your first session!
             </p>
             <Link
               href="/browse"
-              className="mt-4 inline-block rounded-lg bg-fairway-700 px-6 py-3 text-sm font-semibold text-white transition hover:bg-fairway-800"
+              className="mt-4 inline-block rounded-lg bg-brand-green-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-green-700"
             >
               Browse Providers
             </Link>

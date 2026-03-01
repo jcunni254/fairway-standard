@@ -26,7 +26,7 @@ export default async function InterviewDetailPage({ params }: Props) {
     <div className="max-w-3xl">
       <Link
         href="/admin/interviews"
-        className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700"
+        className="inline-flex items-center gap-1 text-sm text-brand-muted hover:text-brand-charcoal"
       >
         <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
@@ -34,14 +34,14 @@ export default async function InterviewDetailPage({ params }: Props) {
         Back to Interviews
       </Link>
 
-      <div className="mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
+      <div className="mt-6 rounded-2xl border border-brand-border bg-white p-6 shadow-sm sm:p-8">
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">
+            <h1 className="text-2xl font-bold text-brand-charcoal">
               {interview.interviewee_name}
             </h1>
-            <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-gray-500">
-              <span className="rounded-full bg-fairway-50 px-3 py-0.5 font-medium capitalize text-fairway-700">
+            <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-brand-muted">
+              <span className="rounded-full bg-brand-green-50 px-3 py-0.5 font-medium capitalize text-brand-green-700">
                 {interview.interviewee_role}
               </span>
               <span>
@@ -71,20 +71,20 @@ export default async function InterviewDetailPage({ params }: Props) {
         </div>
 
         {interview.interviewer_notes && (
-          <div className="mt-4 rounded-lg bg-gray-50 px-4 py-3">
-            <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">
+          <div className="mt-4 rounded-lg bg-brand-cream px-4 py-3">
+            <p className="text-xs font-semibold uppercase tracking-wider text-brand-muted">
               Notes
             </p>
-            <p className="mt-1 text-sm text-gray-600">{interview.interviewer_notes}</p>
+            <p className="mt-1 text-sm text-brand-charcoal/70">{interview.interviewer_notes}</p>
           </div>
         )}
       </div>
 
       {interview.status === "completed" && interview.transcript ? (
         <div className="mt-8">
-          <h2 className="text-lg font-bold text-gray-900">Transcript</h2>
-          <div className="mt-4 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
-            <div className="prose prose-sm max-w-none text-gray-700 leading-relaxed whitespace-pre-wrap">
+          <h2 className="text-lg font-bold text-brand-charcoal">Transcript</h2>
+          <div className="mt-4 rounded-2xl border border-brand-border bg-white p-6 shadow-sm sm:p-8">
+            <div className="prose prose-sm max-w-none text-brand-charcoal leading-relaxed whitespace-pre-wrap">
               {interview.transcript}
             </div>
           </div>

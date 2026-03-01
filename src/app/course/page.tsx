@@ -39,32 +39,32 @@ export default async function CourseOverviewPage() {
     <div>
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">{course.name}</h1>
-          <p className="mt-1 text-gray-500">
+          <h1 className="text-2xl font-bold text-brand-charcoal">{course.name}</h1>
+          <p className="mt-1 text-brand-muted">
             {[course.address, course.city, course.state, course.zip].filter(Boolean).join(", ") || "No address set"}
           </p>
         </div>
         <SignOutButton>
-          <button className="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-600 shadow-sm hover:bg-gray-50">
+          <button className="rounded-lg border border-brand-border bg-white px-4 py-2 text-sm font-medium text-brand-charcoal/70 shadow-sm hover:bg-brand-cream">
             Sign Out
           </button>
         </SignOutButton>
       </div>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-3">
-        <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-          <p className="text-sm font-medium text-gray-500">Instructors</p>
-          <p className="mt-1 text-2xl font-bold text-gray-900">{instructorIds.length}</p>
+        <div className="rounded-xl border border-brand-border bg-white p-5 shadow-sm">
+          <p className="text-sm font-medium text-brand-muted">Instructors</p>
+          <p className="mt-1 text-2xl font-bold text-brand-charcoal">{instructorIds.length}</p>
         </div>
-        <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-          <p className="text-sm font-medium text-gray-500">Total Bookings</p>
-          <p className="mt-1 text-2xl font-bold text-gray-900">{bookingCount}</p>
+        <div className="rounded-xl border border-brand-border bg-white p-5 shadow-sm">
+          <p className="text-sm font-medium text-brand-muted">Total Bookings</p>
+          <p className="mt-1 text-2xl font-bold text-brand-charcoal">{bookingCount}</p>
         </div>
-        <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-          <p className="text-sm font-medium text-gray-500">Contact</p>
-          <p className="mt-1 text-sm font-medium text-gray-900">{course.phone || "Not set"}</p>
+        <div className="rounded-xl border border-brand-border bg-white p-5 shadow-sm">
+          <p className="text-sm font-medium text-brand-muted">Contact</p>
+          <p className="mt-1 text-sm font-medium text-brand-charcoal">{course.phone || "Not set"}</p>
           {course.website && (
-            <a href={course.website} target="_blank" rel="noopener noreferrer" className="mt-1 block text-xs text-fairway-600 hover:underline">
+            <a href={course.website} target="_blank" rel="noopener noreferrer" className="mt-1 block text-xs text-brand-green-600 hover:underline">
               {course.website}
             </a>
           )}

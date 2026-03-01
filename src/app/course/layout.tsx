@@ -26,16 +26,16 @@ export default async function CourseLayout({
   if (!role) redirect("/onboarding");
 
   return (
-    <div className="min-h-[calc(100vh-65px)] bg-gray-50">
-      <div className="border-b border-gray-200 bg-white">
+    <div className="min-h-[calc(100vh-65px)] bg-brand-cream">
+      <div className="border-b border-brand-border bg-white">
         <div className="mx-auto flex max-w-5xl items-center gap-6 px-6 py-3">
-          <Link href="/course" className="text-sm font-medium text-gray-600 hover:text-gray-900">
+          <Link href="/course" className="text-sm font-medium text-brand-charcoal/70 hover:text-brand-charcoal">
             Overview
           </Link>
-          <Link href="/course/instructors" className="text-sm font-medium text-gray-600 hover:text-gray-900">
+          <Link href="/course/instructors" className="text-sm font-medium text-brand-charcoal/70 hover:text-brand-charcoal">
             Instructors
           </Link>
-          <Link href="/course/bookings" className="text-sm font-medium text-gray-600 hover:text-gray-900">
+          <Link href="/course/bookings" className="text-sm font-medium text-brand-charcoal/70 hover:text-brand-charcoal">
             Bookings
           </Link>
         </div>

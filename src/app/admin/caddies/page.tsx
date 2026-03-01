@@ -16,32 +16,32 @@ export default async function AdminCaddiesPage() {
     active: "bg-green-50 text-green-700",
     past_due: "bg-yellow-50 text-yellow-700",
     cancelled: "bg-red-50 text-red-700",
-    none: "bg-gray-50 text-gray-500",
+    none: "bg-brand-cream text-brand-muted",
   };
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900">Manage Caddies</h1>
-      <p className="mt-1 text-gray-500">
+      <h1 className="text-2xl font-bold text-brand-charcoal">Manage Caddies</h1>
+      <p className="mt-1 text-brand-muted">
         Set rates, verify caddies, and monitor subscriptions.
       </p>
 
-      <div className="mt-8 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+      <div className="mt-8 overflow-hidden rounded-xl border border-brand-border bg-white shadow-sm">
         <table className="w-full text-left text-sm">
-          <thead className="border-b border-gray-200 bg-gray-50">
+          <thead className="border-b border-brand-border bg-brand-cream">
             <tr>
-              <th className="px-4 py-3 font-medium text-gray-600">Name</th>
-              <th className="px-4 py-3 font-medium text-gray-600">Email</th>
-              <th className="px-4 py-3 font-medium text-gray-600">Experience</th>
-              <th className="px-4 py-3 font-medium text-gray-600">Subscription</th>
-              <th className="px-4 py-3 font-medium text-gray-600">Rate / Actions</th>
+              <th className="px-4 py-3 font-medium text-brand-charcoal/70">Name</th>
+              <th className="px-4 py-3 font-medium text-brand-charcoal/70">Email</th>
+              <th className="px-4 py-3 font-medium text-brand-charcoal/70">Experience</th>
+              <th className="px-4 py-3 font-medium text-brand-charcoal/70">Subscription</th>
+              <th className="px-4 py-3 font-medium text-brand-charcoal/70">Rate / Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
             {caddies && caddies.length > 0 ? (
               caddies.map((caddie) => (
                 <tr key={caddie.id}>
-                  <td className="px-4 py-3 font-medium text-gray-900">
+                  <td className="px-4 py-3 font-medium text-brand-charcoal">
                     {caddie.full_name}
                     {caddie.verified && (
                       <span className="ml-1 text-blue-500" title="Verified">
@@ -49,8 +49,8 @@ export default async function AdminCaddiesPage() {
                       </span>
                     )}
                   </td>
-                  <td className="px-4 py-3 text-gray-500">{caddie.email || "—"}</td>
-                  <td className="px-4 py-3 text-gray-500">
+                  <td className="px-4 py-3 text-brand-muted">{caddie.email || "—"}</td>
+                  <td className="px-4 py-3 text-brand-muted">
                     {caddie.years_experience ? `${caddie.years_experience} yrs` : "—"}
                   </td>
                   <td className="px-4 py-3">
@@ -69,7 +69,7 @@ export default async function AdminCaddiesPage() {
               ))
             ) : (
               <tr>
-                <td colSpan={5} className="px-4 py-8 text-center text-gray-400">
+                <td colSpan={5} className="px-4 py-8 text-center text-brand-muted">
                   No caddies yet
                 </td>
               </tr>

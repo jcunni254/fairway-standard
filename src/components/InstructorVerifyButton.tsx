@@ -25,7 +25,7 @@ export default function InstructorVerifyButton({ id, verified }: { id: string; v
       className={`rounded px-3 py-1 text-xs font-medium ${
         verified
           ? "bg-blue-100 text-blue-700 hover:bg-blue-200"
-          : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+          : "bg-gray-100 text-brand-charcoal/70 hover:bg-gray-200"
       } disabled:opacity-50`}
     >
       {verified ? "Verified" : "Verify"}

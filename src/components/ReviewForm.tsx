@@ -56,13 +56,13 @@ export default function ReviewForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="rounded-xl border border-gray-200 bg-gray-50 p-5">
-        <p className="font-semibold text-gray-900">{serviceName}</p>
-        <p className="mt-1 text-sm text-gray-500">with {providerName}</p>
+      <div className="rounded-xl border border-brand-border bg-brand-cream p-5">
+        <p className="font-semibold text-brand-charcoal">{serviceName}</p>
+        <p className="mt-1 text-sm text-brand-muted">with {providerName}</p>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block text-sm font-medium text-brand-charcoal">
           Rating *
         </label>
         <div className="mt-2 flex gap-1">
@@ -95,7 +95,7 @@ export default function ReviewForm({
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block text-sm font-medium text-brand-charcoal">
           Your Review
         </label>
         <textarea
@@ -103,7 +103,7 @@ export default function ReviewForm({
           placeholder="How was your experience? This helps other golfers decide..."
           value={comment}
           onChange={(e) => setComment(e.target.value)}
-          className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 text-sm shadow-sm focus:border-fairway-500 focus:outline-none focus:ring-2 focus:ring-fairway-500/20"
+          className="mt-1 w-full rounded-lg border border-brand-border px-4 py-3 text-sm shadow-sm focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
         />
       </div>
 
@@ -116,7 +116,7 @@ export default function ReviewForm({
       <button
         type="submit"
         disabled={rating === 0 || status === "submitting"}
-        className="w-full rounded-xl bg-fairway-700 px-6 py-4 text-lg font-semibold text-white shadow-sm transition hover:bg-fairway-800 disabled:opacity-50"
+        className="w-full rounded-xl bg-brand-green-600 px-6 py-4 text-lg font-semibold text-white shadow-sm transition hover:bg-brand-green-700 disabled:opacity-50"
       >
         {status === "submitting" ? "Submitting..." : "Submit Review"}
       </button>

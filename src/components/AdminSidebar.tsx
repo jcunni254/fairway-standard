@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 const links = [
@@ -17,13 +18,16 @@ export default function AdminSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 border-r border-gray-200 bg-white">
+    <aside className="w-64 bg-brand-green-950 text-white">
       <div className="p-6">
-        <h2 className="text-sm font-bold uppercase tracking-wider text-gray-400">
-          Admin Panel
-        </h2>
+        <div className="flex items-center gap-3">
+          <Image src="/logo.png" alt="Logo" width={28} height={28} className="rounded-sm" />
+          <h2 className="text-xs font-semibold uppercase tracking-widest text-brand-gold-500">
+            Admin Panel
+          </h2>
+        </div>
       </div>
-      <nav className="space-y-1 px-3">
+      <nav className="space-y-0.5 px-3 pb-6">
         {links.map((link) => {
           const active = link.href === "/admin" ? pathname === link.href : pathname.startsWith(link.href);
           return (
@@ -32,8 +36,8 @@ export default function AdminSidebar() {
               href={link.href}
               className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition ${
                 active
-                  ? "bg-fairway-50 text-fairway-700"
-                  : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                  ? "bg-brand-green-800 text-white"
+                  : "text-brand-green-300/70 hover:bg-brand-green-900 hover:text-white"
               }`}
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">

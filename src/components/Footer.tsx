@@ -1,51 +1,45 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-gray-200 bg-white">
-      <div className="mx-auto max-w-6xl px-6 py-12">
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+    <footer className="bg-brand-green-950">
+      <div className="mx-auto max-w-6xl px-6 py-14">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div className="sm:col-span-2 lg:col-span-1">
-            <Link href="/" className="text-lg font-bold text-gray-900">
-              The Fairway Standard
+            <Link href="/" className="flex items-center gap-3">
+              <Image src="/logo.png" alt="The Fairway Standard" width={36} height={36} className="rounded-sm" />
+              <span className="font-display text-base font-semibold tracking-wide text-white">
+                The Fairway Standard
+              </span>
             </Link>
-            <p className="mt-3 max-w-xs text-sm text-gray-500 leading-relaxed">
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-brand-green-300/70">
               Premium golf services at fair prices. Connecting golfers with experienced caddies and qualified instructors.
             </p>
           </div>
 
           <div>
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-400">Platform</h3>
-            <ul className="mt-4 space-y-2.5">
-              <li>
-                <Link href="/browse" className="text-sm text-gray-600 transition hover:text-fairway-600">Browse Providers</Link>
-              </li>
-              <li>
-                <Link href="/join" className="text-sm text-gray-600 transition hover:text-fairway-600">Become a Provider</Link>
-              </li>
-              <li>
-                <Link href="/bookings" className="text-sm text-gray-600 transition hover:text-fairway-600">My Bookings</Link>
-              </li>
+            <h3 className="text-xs font-semibold uppercase tracking-widest text-brand-gold-500">Platform</h3>
+            <ul className="mt-4 space-y-3">
+              <li><Link href="/browse" className="text-sm text-brand-green-200/70 transition hover:text-white">Browse Providers</Link></li>
+              <li><Link href="/join" className="text-sm text-brand-green-200/70 transition hover:text-white">Become a Provider</Link></li>
+              <li><Link href="/bookings" className="text-sm text-brand-green-200/70 transition hover:text-white">My Bookings</Link></li>
             </ul>
           </div>
 
           <div>
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-400">Legal</h3>
-            <ul className="mt-4 space-y-2.5">
-              <li>
-                <Link href="/terms" className="text-sm text-gray-600 transition hover:text-fairway-600">Terms of Service</Link>
-              </li>
-              <li>
-                <Link href="/privacy" className="text-sm text-gray-600 transition hover:text-fairway-600">Privacy Policy</Link>
-              </li>
+            <h3 className="text-xs font-semibold uppercase tracking-widest text-brand-gold-500">Legal</h3>
+            <ul className="mt-4 space-y-3">
+              <li><Link href="/terms" className="text-sm text-brand-green-200/70 transition hover:text-white">Terms of Service</Link></li>
+              <li><Link href="/privacy" className="text-sm text-brand-green-200/70 transition hover:text-white">Privacy Policy</Link></li>
             </ul>
           </div>
 
           <div>
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-400">Contact</h3>
-            <ul className="mt-4 space-y-2.5">
+            <h3 className="text-xs font-semibold uppercase tracking-widest text-brand-gold-500">Contact</h3>
+            <ul className="mt-4 space-y-3">
               <li>
-                <a href="mailto:support@thefairwaystandard.org" className="text-sm text-gray-600 transition hover:text-fairway-600">
+                <a href="mailto:support@thefairwaystandard.org" className="text-sm text-brand-green-200/70 transition hover:text-white">
                   support@thefairwaystandard.org
                 </a>
               </li>
@@ -53,13 +47,13 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col items-center gap-3 border-t border-gray-100 pt-6 sm:flex-row sm:justify-between">
-          <p className="text-xs text-gray-400">
+        <div className="mt-12 flex flex-col items-center gap-3 border-t border-brand-green-800/50 pt-6 sm:flex-row sm:justify-between">
+          <p className="text-xs text-brand-green-400/50">
             &copy; {new Date().getFullYear()} The Fairway Standard. All rights reserved.
           </p>
           <div className="flex gap-5">
-            <Link href="/terms" className="text-xs text-gray-400 transition hover:text-gray-600">Terms</Link>
-            <Link href="/privacy" className="text-xs text-gray-400 transition hover:text-gray-600">Privacy</Link>
+            <Link href="/terms" className="text-xs text-brand-green-400/50 transition hover:text-brand-green-200">Terms</Link>
+            <Link href="/privacy" className="text-xs text-brand-green-400/50 transition hover:text-brand-green-200">Privacy</Link>
           </div>
         </div>
       </div>

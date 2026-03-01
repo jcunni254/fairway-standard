@@ -91,8 +91,8 @@ export default function OnboardingForm({ prefill, courses, existingRoles }: Prop
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
       {/* Role Selection */}
-      <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
-        <h2 className="text-lg font-bold text-gray-900">I am a...</h2>
+      <div className="rounded-2xl border border-brand-border bg-white p-6 shadow-sm sm:p-8">
+        <h2 className="font-display text-lg font-bold text-brand-charcoal">I am a...</h2>
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
           {availableRoles.map((r) => (
             <button
@@ -101,14 +101,14 @@ export default function OnboardingForm({ prefill, courses, existingRoles }: Prop
               onClick={() => setRole(r.value)}
               className={`rounded-xl border-2 p-4 text-left transition ${
                 role === r.value
-                  ? "border-fairway-600 bg-fairway-50"
-                  : "border-gray-200 hover:border-gray-300"
+                  ? "border-brand-green-600 bg-brand-green-50"
+                  : "border-brand-border hover:border-brand-border"
               }`}
             >
-              <p className={`font-semibold ${role === r.value ? "text-fairway-700" : "text-gray-900"}`}>
+              <p className={`font-semibold ${role === r.value ? "text-brand-green-700" : "text-brand-charcoal"}`}>
                 {r.label}
               </p>
-              <p className="mt-1 text-xs text-gray-500">{r.desc}</p>
+              <p className="mt-1 text-xs text-brand-muted">{r.desc}</p>
             </button>
           ))}
         </div>
@@ -116,29 +116,29 @@ export default function OnboardingForm({ prefill, courses, existingRoles }: Prop
 
       {/* Common Fields */}
       {role && (
-        <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
-          <h2 className="text-lg font-bold text-gray-900">Your Details</h2>
+        <div className="rounded-2xl border border-brand-border bg-white p-6 shadow-sm sm:p-8">
+          <h2 className="font-display text-lg font-bold text-brand-charcoal">Your Details</h2>
           <div className="mt-6 space-y-5">
             <div>
-              <label className="block text-sm font-medium text-gray-700">Full Name *</label>
+              <label className="block text-sm font-medium text-brand-charcoal">Full Name *</label>
               <input
                 required
                 type="text"
                 value={form.fullName}
                 onChange={(e) => update("fullName", e.target.value)}
-                className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 text-sm shadow-sm focus:border-fairway-500 focus:outline-none focus:ring-2 focus:ring-fairway-500/20"
+                className="mt-1 w-full rounded-lg border border-brand-border px-4 py-3 text-sm shadow-sm focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
               />
             </div>
 
             {role !== "player" && (
               <div>
-                <label className="block text-sm font-medium text-gray-700">Phone</label>
+                <label className="block text-sm font-medium text-brand-charcoal">Phone</label>
                 <input
                   type="tel"
                   placeholder="(555) 123-4567"
                   value={form.phone}
                   onChange={(e) => update("phone", e.target.value)}
-                  className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 text-sm shadow-sm focus:border-fairway-500 focus:outline-none focus:ring-2 focus:ring-fairway-500/20"
+                  className="mt-1 w-full rounded-lg border border-brand-border px-4 py-3 text-sm shadow-sm focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
                 />
               </div>
             )}
@@ -147,25 +147,25 @@ export default function OnboardingForm({ prefill, courses, existingRoles }: Prop
             {role === "caddie" && (
               <>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Bio *</label>
+                  <label className="block text-sm font-medium text-brand-charcoal">Bio *</label>
                   <textarea
                     required
                     rows={3}
                     placeholder="Tell golfers about your experience on the course..."
                     value={form.bio}
                     onChange={(e) => update("bio", e.target.value)}
-                    className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 text-sm shadow-sm focus:border-fairway-500 focus:outline-none focus:ring-2 focus:ring-fairway-500/20"
+                    className="mt-1 w-full rounded-lg border border-brand-border px-4 py-3 text-sm shadow-sm focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Years of Experience</label>
+                  <label className="block text-sm font-medium text-brand-charcoal">Years of Experience</label>
                   <input
                     type="number"
                     min="0"
                     placeholder="3"
                     value={form.yearsExperience}
                     onChange={(e) => update("yearsExperience", e.target.value)}
-                    className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 text-sm shadow-sm focus:border-fairway-500 focus:outline-none focus:ring-2 focus:ring-fairway-500/20"
+                    className="mt-1 w-full rounded-lg border border-brand-border px-4 py-3 text-sm shadow-sm focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
                   />
                 </div>
                 <div className="rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-700">
@@ -178,19 +178,19 @@ export default function OnboardingForm({ prefill, courses, existingRoles }: Prop
             {role === "instructor" && (
               <>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Bio *</label>
+                  <label className="block text-sm font-medium text-brand-charcoal">Bio *</label>
                   <textarea
                     required
                     rows={3}
                     placeholder="Describe your teaching style and what players can expect..."
                     value={form.bio}
                     onChange={(e) => update("bio", e.target.value)}
-                    className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 text-sm shadow-sm focus:border-fairway-500 focus:outline-none focus:ring-2 focus:ring-fairway-500/20"
+                    className="mt-1 w-full rounded-lg border border-brand-border px-4 py-3 text-sm shadow-sm focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
                   />
                 </div>
                 <div className="grid gap-5 sm:grid-cols-2">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Hourly Rate ($) *</label>
+                    <label className="block text-sm font-medium text-brand-charcoal">Hourly Rate ($) *</label>
                     <input
                       required
                       type="number"
@@ -199,28 +199,28 @@ export default function OnboardingForm({ prefill, courses, existingRoles }: Prop
                       placeholder="75"
                       value={form.hourlyRate}
                       onChange={(e) => update("hourlyRate", e.target.value)}
-                      className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 text-sm shadow-sm focus:border-fairway-500 focus:outline-none focus:ring-2 focus:ring-fairway-500/20"
+                      className="mt-1 w-full rounded-lg border border-brand-border px-4 py-3 text-sm shadow-sm focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Years of Experience</label>
+                    <label className="block text-sm font-medium text-brand-charcoal">Years of Experience</label>
                     <input
                       type="number"
                       min="0"
                       placeholder="5"
                       value={form.yearsExperience}
                       onChange={(e) => update("yearsExperience", e.target.value)}
-                      className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 text-sm shadow-sm focus:border-fairway-500 focus:outline-none focus:ring-2 focus:ring-fairway-500/20"
+                      className="mt-1 w-full rounded-lg border border-brand-border px-4 py-3 text-sm shadow-sm focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
                     />
                   </div>
                 </div>
                 {courses.length > 0 && (
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Affiliated Course (optional)</label>
+                    <label className="block text-sm font-medium text-brand-charcoal">Affiliated Course (optional)</label>
                     <select
                       value={form.courseId}
                       onChange={(e) => update("courseId", e.target.value)}
-                      className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 text-sm shadow-sm focus:border-fairway-500 focus:outline-none focus:ring-2 focus:ring-fairway-500/20"
+                      className="mt-1 w-full rounded-lg border border-brand-border px-4 py-3 text-sm shadow-sm focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
                     >
                       <option value="">None — independent instructor</option>
                       {courses.map((c) => (
@@ -236,76 +236,76 @@ export default function OnboardingForm({ prefill, courses, existingRoles }: Prop
             {role === "course_manager" && (
               <>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Course Name *</label>
+                  <label className="block text-sm font-medium text-brand-charcoal">Course Name *</label>
                   <input
                     required
                     type="text"
                     placeholder="Pine Valley Golf Club"
                     value={form.courseName}
                     onChange={(e) => update("courseName", e.target.value)}
-                    className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 text-sm shadow-sm focus:border-fairway-500 focus:outline-none focus:ring-2 focus:ring-fairway-500/20"
+                    className="mt-1 w-full rounded-lg border border-brand-border px-4 py-3 text-sm shadow-sm focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Address</label>
+                  <label className="block text-sm font-medium text-brand-charcoal">Address</label>
                   <input
                     type="text"
                     placeholder="123 Golf Course Road"
                     value={form.courseAddress}
                     onChange={(e) => update("courseAddress", e.target.value)}
-                    className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 text-sm shadow-sm focus:border-fairway-500 focus:outline-none focus:ring-2 focus:ring-fairway-500/20"
+                    className="mt-1 w-full rounded-lg border border-brand-border px-4 py-3 text-sm shadow-sm focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
                   />
                 </div>
                 <div className="grid gap-5 sm:grid-cols-3">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">City</label>
+                    <label className="block text-sm font-medium text-brand-charcoal">City</label>
                     <input
                       type="text"
                       value={form.courseCity}
                       onChange={(e) => update("courseCity", e.target.value)}
-                      className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 text-sm shadow-sm focus:border-fairway-500 focus:outline-none focus:ring-2 focus:ring-fairway-500/20"
+                      className="mt-1 w-full rounded-lg border border-brand-border px-4 py-3 text-sm shadow-sm focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">State</label>
+                    <label className="block text-sm font-medium text-brand-charcoal">State</label>
                     <input
                       type="text"
                       maxLength={2}
                       placeholder="CA"
                       value={form.courseState}
                       onChange={(e) => update("courseState", e.target.value)}
-                      className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 text-sm shadow-sm focus:border-fairway-500 focus:outline-none focus:ring-2 focus:ring-fairway-500/20"
+                      className="mt-1 w-full rounded-lg border border-brand-border px-4 py-3 text-sm shadow-sm focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">ZIP</label>
+                    <label className="block text-sm font-medium text-brand-charcoal">ZIP</label>
                     <input
                       type="text"
                       maxLength={10}
                       value={form.courseZip}
                       onChange={(e) => update("courseZip", e.target.value)}
-                      className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 text-sm shadow-sm focus:border-fairway-500 focus:outline-none focus:ring-2 focus:ring-fairway-500/20"
+                      className="mt-1 w-full rounded-lg border border-brand-border px-4 py-3 text-sm shadow-sm focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
                     />
                   </div>
                 </div>
                 <div className="grid gap-5 sm:grid-cols-2">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Course Phone</label>
+                    <label className="block text-sm font-medium text-brand-charcoal">Course Phone</label>
                     <input
                       type="tel"
                       value={form.coursePhone}
                       onChange={(e) => update("coursePhone", e.target.value)}
-                      className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 text-sm shadow-sm focus:border-fairway-500 focus:outline-none focus:ring-2 focus:ring-fairway-500/20"
+                      className="mt-1 w-full rounded-lg border border-brand-border px-4 py-3 text-sm shadow-sm focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Website</label>
+                    <label className="block text-sm font-medium text-brand-charcoal">Website</label>
                     <input
                       type="url"
                       placeholder="https://..."
                       value={form.courseWebsite}
                       onChange={(e) => update("courseWebsite", e.target.value)}
-                      className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 text-sm shadow-sm focus:border-fairway-500 focus:outline-none focus:ring-2 focus:ring-fairway-500/20"
+                      className="mt-1 w-full rounded-lg border border-brand-border px-4 py-3 text-sm shadow-sm focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
                     />
                   </div>
                 </div>
@@ -325,7 +325,7 @@ export default function OnboardingForm({ prefill, courses, existingRoles }: Prop
         <button
           type="submit"
           disabled={status === "saving"}
-          className="w-full rounded-xl bg-fairway-700 px-6 py-4 text-lg font-semibold text-white shadow-sm transition hover:bg-fairway-800 disabled:opacity-50"
+          className="w-full rounded-xl bg-brand-green-600 px-6 py-4 text-lg font-semibold text-white shadow-sm transition hover:bg-brand-green-700 disabled:opacity-50"
         >
           {status === "saving"
             ? "Setting up your account..."

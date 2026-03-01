@@ -55,15 +55,15 @@ export default function SubscriptionButton({ status }: Props) {
 
   return (
     <div className="space-y-3">
-      <div className="rounded-xl border border-gray-200 bg-gray-50 px-4 py-3">
-        <p className="text-sm text-gray-600">
-          Subscribe for <span className="font-bold text-gray-900">$19.99/month</span> to appear in search results and get booked by golfers.
+      <div className="rounded-xl border border-brand-border bg-brand-cream px-4 py-3">
+        <p className="text-sm text-brand-charcoal/70">
+          Subscribe for <span className="font-bold text-brand-charcoal">$19.99/month</span> to appear in search results and get booked by golfers.
         </p>
       </div>
       <button
         onClick={handleSubscribe}
         disabled={loading}
-        className="w-full rounded-xl bg-fairway-700 px-6 py-4 text-lg font-semibold text-white shadow-sm transition hover:bg-fairway-800 disabled:opacity-50"
+        className="w-full rounded-xl bg-brand-green-600 px-6 py-4 text-lg font-semibold text-white shadow-sm transition hover:bg-brand-green-700 disabled:opacity-50"
       >
         {loading ? "Redirecting to checkout..." : "Subscribe — $19.99/mo"}
       </button>

@@ -49,14 +49,14 @@ export default async function ReviewPage({ params }: Props) {
     <div className="min-h-[calc(100vh-65px)] bg-gradient-to-b from-gray-50 to-white">
       <div className="mx-auto max-w-xl px-6 py-12 sm:py-20">
         <div className="text-center">
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
+          <h1 className="text-2xl font-bold tracking-tight text-brand-charcoal sm:text-3xl">
             Leave a Review
           </h1>
-          <p className="mt-2 text-gray-500">
+          <p className="mt-2 text-brand-muted">
             Help other golfers by sharing your experience
           </p>
         </div>
-        <div className="mt-8 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
+        <div className="mt-8 rounded-2xl border border-brand-border bg-white p-6 shadow-sm sm:p-8">
           <ReviewForm
             bookingId={bookingId}
             providerId={booking.provider_id}
