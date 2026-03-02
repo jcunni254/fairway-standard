@@ -1,22 +1,78 @@
 ---
-description: The Fairway Standard — project context, tech stack, and conventions
+description: Development standards for The Fairway Standard codebase
 alwaysApply: true
 ---
 
-# The Fairway Standard
+# The Fairway Standard — Development Standards
 
-Golf services startup for booking caddies and golf instructors at lower rates.
+## Knowledge Base
 
-## Tech Stack
+**Always consult `FAIRWAY_STANDARD_PROJECT.md` (repo root) before architectural decisions.** It contains the full PRD, schema documentation, gap analysis, security requirements, and sprint plan.
 
-- **Next.js 15** (App Router, TypeScript, Tailwind)
-- **Clerk** — Auth & user management
-- **Supabase** — Database, RLS policies
-- **Vercel** — Hosting
-- **Resend** — Emails | **PostHog** — Analytics | **Sentry** — Errors | **Cloudflare** — Security/DNS
+## Database Conventions
 
-## Key Files
+### Table Names (Authoritative)
+`user_roles`, `players`, `caddies`, `instructors`, `courses`, `caddie_services`, `instructor_services`, `bookings`, `reviews`, `waitlist`, `caddie_vetting_responses`, `interviews`
 
-- `FAIRWAY_STANDARD_PROJECT.md` — Full project knowledge base
-- `src/lib/supabase.ts` — Clerk-aware Supabase client (`createClerkSupabaseClient(getToken)`)
-- `SETUP_NEXT_STEPS.md` — Post-scaffold setup instructions
+**NEVER use `profiles` or `services` as table names.** These are legacy references. If you see them in existing code, they need migration to the role-specific tables above.
+
+### Supabase Client Usage
+
+```
+User-scoped operations → createClerkSupabaseClient(getToken) from src/lib/supabase.ts
+Admin/webhook operations → getAdminSupabase() from src/lib/supabase-admin.ts
+Public read-only → anon client acceptable
+```
+
+**NEVER create inline `createClient(URL, SUPABASE_SERVICE_ROLE_KEY)`** — always use `getAdminSupabase()`.
+
+### Booking Status Machine
+`pending` → `confirmed` | `declined` | `cancelled`
+`confirmed` → `completed` | `cancelled` | `no_show`
+
+Confirmed status should only be set after Stripe webhook confirmation for paid bookings.
+
+## Stripe Integration Rules
+
+1. **Webhooks are the source of truth** for payment state. Never trust client-side.
+2. **Verify webhook signatures** using raw body (Next.js may modify body — use `request.text()`).
+3. **Use idempotency keys** when creating PaymentIntents.
+4. **Webhook handler must use service role client** (`getAdminSupabase()`) — webhooks have no user session.
+5. **Store `stripe_customer_id`** on provider record during subscription checkout.
+6. **Validate prices server-side** — never accept `totalPrice` from client without checking against service record.
+
+## Security Standards
+
+1. Every API route must authenticate via `auth()` from Clerk (or verify Stripe webhook signature).
+2. Admin routes must call `requireAdmin()` from `src/lib/admin.ts` AND use `getAdminSupabase()`.
+3. Never expose `SUPABASE_SERVICE_ROLE_KEY` or `STRIPE_SECRET_KEY` to the client.
+4. All user-facing Supabase queries must go through the Clerk-aware client so RLS policies enforce access.
+5. Use `NEXT_PUBLIC_APP_URL` env var for all URL construction (no hardcoded domains).
+
+## Code Conventions
+
+### Tailwind Colors
+Use `brand-green-*` (not `fairway-*`). Both exist with identical values in tailwind.config.ts.
+
+### Component Organization
+- `src/components/` — shared UI components
+- `src/components/motion/` — animation wrappers (ScrollReveal, StaggerContainer, etc.)
+- `src/lib/` — utilities (supabase, stripe, email, admin)
+
+### Error Handling
+- Use `try/catch` with specific error messages in API routes
+- Return appropriate HTTP status codes (401, 403, 404, 500)
+- Never use `alert()` for user-facing errors — use toast or inline messages
+- Log errors to Sentry in production
+
+### Fonts
+- Body: Inter (`font-sans`)
+- Display headings: Playfair Display (`font-display`)
+
+## Feature Development Discipline
+
+Before adding any feature:
+1. Check `FAIRWAY_STANDARD_PROJECT.md` sprint plan — is this in scope?
+2. Does it advance the core value loop? (providers → search → book → pay → review → repeat)
+3. Write a micro-PRD if it's non-trivial
+4. Never dilute premium positioning

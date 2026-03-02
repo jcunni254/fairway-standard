@@ -8,6 +8,7 @@ import ScrollReveal from "@/components/motion/ScrollReveal";
 import StaggerContainer from "@/components/motion/StaggerContainer";
 import StaggerItem from "@/components/motion/StaggerItem";
 import ParallaxImage from "@/components/motion/ParallaxImage";
+import CourseMap from "@/components/CourseMap";
 
 const ADMIN_USER_IDS = (process.env.ADMIN_USER_IDS || "").split(",").filter(Boolean);
 
@@ -138,6 +139,57 @@ export default async function Home() {
 
       {/* Gold accent line */}
       <div className="h-1 bg-gradient-to-r from-brand-gold-600 via-brand-gold-400 to-brand-gold-600" />
+
+      {/* ─── COURSE MAP ─── */}
+      <section className="relative overflow-hidden bg-brand-green-950 py-20 sm:py-28">
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
+          <Image
+            src="/logo-main.png"
+            alt=""
+            fill
+            className="object-contain"
+          />
+        </div>
+
+        <div className="relative mx-auto max-w-7xl px-6">
+          <ScrollReveal>
+            <div className="text-center">
+              <p className="font-display text-sm tracking-[0.25em] text-brand-gold-400 uppercase">
+                Explore
+              </p>
+              <h2 className="mt-3 font-display text-3xl font-bold text-white sm:text-4xl">
+                Find Courses Near You
+              </h2>
+              <p className="mx-auto mt-4 max-w-xl text-white/50">
+                Discover golf courses in your area. When our caddies and instructors
+                become available at a course, you&rsquo;ll be able to book directly from the map.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.3}>
+            <div className="mt-12">
+              <div className="relative overflow-hidden rounded-2xl border border-white/[0.06]">
+                <CourseMap />
+                <div className="pointer-events-none absolute inset-0 z-[5] rounded-2xl shadow-[inset_0_0_80px_rgba(11,37,20,0.5)]" />
+              </div>
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.5}>
+            <div className="mt-8 flex items-center justify-center gap-10 text-sm">
+              <div className="flex items-center gap-2.5">
+                <span className="h-3 w-3 rounded-full bg-brand-gold-400 shadow-[0_0_8px_rgba(232,191,101,0.5)]" />
+                <span className="text-white/40">Available Now</span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <span className="h-3 w-3 rounded-full bg-white/20" />
+                <span className="text-white/30">Coming Soon</span>
+              </div>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
 
       {/* ─── HOW IT WORKS ─── */}
       <section className="bg-white py-24 sm:py-32">
