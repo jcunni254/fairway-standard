@@ -11,7 +11,10 @@
   "dependencies": {
     "@clerk/nextjs": "^6.12.12",
     "@sentry/nextjs": "^10.40.0",
+    "@studio-freight/lenis": "^1.0.42",
     "@supabase/supabase-js": "^2.49.4",
+    "framer-api": "^0.1.1",
+    "framer-motion": "^12.34.3",
     "next": "^15.2.4",
     "openai": "^6.25.0",
     "pg": "^8.19.0",

@@ -1,51 +1,55 @@
 import Link from "next/link";
 import Image from "next/image";
+import ScrollReveal from "@/components/motion/ScrollReveal";
 
 export default function Footer() {
   return (
     <footer className="bg-brand-green-950">
+      <div className="h-px bg-gradient-to-r from-transparent via-brand-gold-500/50 to-transparent" />
       <div className="mx-auto max-w-6xl px-6 py-14">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="sm:col-span-2 lg:col-span-1">
-            <Link href="/" className="flex items-center gap-3">
-              <Image src="/logo.png" alt="The Fairway Standard" width={36} height={36} className="rounded-sm" />
-              <span className="font-display text-base font-semibold tracking-wide text-white">
-                The Fairway Standard
-              </span>
-            </Link>
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-brand-green-300/70">
-              Premium golf services at fair prices. Connecting golfers with experienced caddies and qualified instructors.
-            </p>
-          </div>
+        <ScrollReveal>
+          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="sm:col-span-2 lg:col-span-1">
+              <Link href="/" className="flex items-center gap-3">
+                <Image src="/logo.png" alt="The Fairway Standard" width={36} height={36} className="rounded-sm" />
+                <span className="font-display text-base font-semibold tracking-wide text-white">
+                  The Fairway Standard
+                </span>
+              </Link>
+              <p className="mt-4 max-w-xs text-sm leading-relaxed text-brand-green-300/70">
+                Premium golf services at fair prices. Connecting golfers with experienced caddies and qualified instructors.
+              </p>
+            </div>
 
-          <div>
-            <h3 className="text-xs font-semibold uppercase tracking-widest text-brand-gold-500">Platform</h3>
-            <ul className="mt-4 space-y-3">
-              <li><Link href="/browse" className="text-sm text-brand-green-200/70 transition hover:text-white">Browse Providers</Link></li>
-              <li><Link href="/join" className="text-sm text-brand-green-200/70 transition hover:text-white">Become a Provider</Link></li>
-              <li><Link href="/bookings" className="text-sm text-brand-green-200/70 transition hover:text-white">My Bookings</Link></li>
-            </ul>
-          </div>
+            <div>
+              <h3 className="text-xs font-semibold uppercase tracking-widest text-brand-gold-500">Platform</h3>
+              <ul className="mt-4 space-y-3">
+                <li><Link href="/browse" className="text-sm text-brand-green-200/70 transition hover:text-white">Browse Providers</Link></li>
+                <li><Link href="/join" className="text-sm text-brand-green-200/70 transition hover:text-white">Become a Provider</Link></li>
+                <li><Link href="/bookings" className="text-sm text-brand-green-200/70 transition hover:text-white">My Bookings</Link></li>
+              </ul>
+            </div>
 
-          <div>
-            <h3 className="text-xs font-semibold uppercase tracking-widest text-brand-gold-500">Legal</h3>
-            <ul className="mt-4 space-y-3">
-              <li><Link href="/terms" className="text-sm text-brand-green-200/70 transition hover:text-white">Terms of Service</Link></li>
-              <li><Link href="/privacy" className="text-sm text-brand-green-200/70 transition hover:text-white">Privacy Policy</Link></li>
-            </ul>
-          </div>
+            <div>
+              <h3 className="text-xs font-semibold uppercase tracking-widest text-brand-gold-500">Legal</h3>
+              <ul className="mt-4 space-y-3">
+                <li><Link href="/terms" className="text-sm text-brand-green-200/70 transition hover:text-white">Terms of Service</Link></li>
+                <li><Link href="/privacy" className="text-sm text-brand-green-200/70 transition hover:text-white">Privacy Policy</Link></li>
+              </ul>
+            </div>
 
-          <div>
-            <h3 className="text-xs font-semibold uppercase tracking-widest text-brand-gold-500">Contact</h3>
-            <ul className="mt-4 space-y-3">
-              <li>
-                <a href="mailto:support@thefairwaystandard.org" className="text-sm text-brand-green-200/70 transition hover:text-white">
-                  support@thefairwaystandard.org
-                </a>
-              </li>
-            </ul>
+            <div>
+              <h3 className="text-xs font-semibold uppercase tracking-widest text-brand-gold-500">Contact</h3>
+              <ul className="mt-4 space-y-3">
+                <li>
+                  <a href="mailto:support@thefairwaystandard.org" className="text-sm text-brand-green-200/70 transition hover:text-white">
+                    support@thefairwaystandard.org
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
+        </ScrollReveal>
 
         <div className="mt-12 flex flex-col items-center gap-3 border-t border-brand-green-800/50 pt-6 sm:flex-row sm:justify-between">
           <p className="text-xs text-brand-green-400/50">

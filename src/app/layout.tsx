@@ -3,6 +3,7 @@ import { Inter, Playfair_Display } from "next/font/google";
 import type { Metadata } from "next";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
+import SmoothScroll from "@/components/motion/SmoothScroll";
 import { PostHogProvider } from "./providers";
 import "./globals.css";
 
@@ -39,10 +40,12 @@ export default function RootLayout({
       <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
         <body className="font-sans antialiased">
           <PostHogProvider>
-            <NavBar />
-            <main className="pt-[65px]">{children}</main>
-            <Footer />
-          </PostHogProvider>
+            <SmoothScroll>
+              <NavBar />
+              <main className="pt-[65px]">{children}</main>
+              <Footer />
+            </SmoothScroll>
+            </PostHogProvider>
         </body>
       </html>
     </ClerkProvider>
