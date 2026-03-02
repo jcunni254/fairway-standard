@@ -112,7 +112,7 @@ export async function POST(req: NextRequest) {
 
 function getRedirect(role: string): string {
   switch (role) {
-    case "caddie": return "/dashboard";
+    case "caddie": return "/onboarding/caddie-vetting";
     case "instructor": return "/dashboard";
     case "course_manager": return "/course";
     case "player": return "/browse";

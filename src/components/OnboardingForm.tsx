@@ -9,6 +9,7 @@ interface Props {
   prefill: { email: string; fullName: string; avatarUrl: string };
   courses: { id: string; name: string }[];
   existingRoles: string[];
+  preselectedRole?: Role;
 }
 
 const ROLES: { value: Role; label: string; desc: string }[] = [
@@ -18,9 +19,9 @@ const ROLES: { value: Role; label: string; desc: string }[] = [
   { value: "course_manager", label: "Course Manager", desc: "Manage your course and affiliated instructors" },
 ];
 
-export default function OnboardingForm({ prefill, courses, existingRoles }: Props) {
+export default function OnboardingForm({ prefill, courses, existingRoles, preselectedRole }: Props) {
   const router = useRouter();
-  const [role, setRole] = useState<Role | null>(null);
+  const [role, setRole] = useState<Role | null>(preselectedRole ?? null);
   const [form, setForm] = useState({
     fullName: prefill.fullName,
     bio: "",

@@ -10,23 +10,27 @@ export default function Footer() {
         <ScrollReveal>
           <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
             <div className="sm:col-span-2 lg:col-span-1">
-              <Link href="/" className="flex items-center gap-3">
-                <Image src="/logo.png" alt="The Fairway Standard" width={36} height={36} className="rounded-sm" />
-                <span className="font-display text-base font-semibold tracking-wide text-white">
-                  The Fairway Standard
-                </span>
+              <Link href="/" className="inline-block">
+                <Image src="/logo-horizontal.png" alt="The Fairway Standard" width={180} height={44} className="h-10 w-auto" />
               </Link>
               <p className="mt-4 max-w-xs text-sm leading-relaxed text-brand-green-300/70">
-                Premium golf services at fair prices. Connecting golfers with experienced caddies and qualified instructors.
+                Book experienced, vetted caddies for your next round. Better reads. Better strategy. Better golf.
               </p>
             </div>
 
             <div>
-              <h3 className="text-xs font-semibold uppercase tracking-widest text-brand-gold-500">Platform</h3>
+              <h3 className="text-xs font-semibold uppercase tracking-widest text-brand-gold-500">For Players</h3>
               <ul className="mt-4 space-y-3">
-                <li><Link href="/browse" className="text-sm text-brand-green-200/70 transition hover:text-white">Browse Providers</Link></li>
-                <li><Link href="/join" className="text-sm text-brand-green-200/70 transition hover:text-white">Become a Provider</Link></li>
+                <li><Link href="/browse" className="text-sm text-brand-green-200/70 transition hover:text-white">Find a Caddie</Link></li>
                 <li><Link href="/bookings" className="text-sm text-brand-green-200/70 transition hover:text-white">My Bookings</Link></li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-xs font-semibold uppercase tracking-widest text-brand-gold-500">For Caddies</h3>
+              <ul className="mt-4 space-y-3">
+                <li><Link href="/join/caddie" className="text-sm text-brand-green-200/70 transition hover:text-white">Apply to Caddie</Link></li>
+                <li><Link href="/dashboard" className="text-sm text-brand-green-200/70 transition hover:text-white">Caddie Dashboard</Link></li>
               </ul>
             </div>
 

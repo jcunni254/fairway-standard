@@ -5,6 +5,7 @@ const isAdminRoute = createRouteMatcher(["/admin(.*)"]);
 const isCourseRoute = createRouteMatcher(["/course(.*)"]);
 const isDashboardRoute = createRouteMatcher(["/dashboard(.*)"]);
 const isBookingsRoute = createRouteMatcher(["/bookings(.*)"]);
+const isOnboardingRoute = createRouteMatcher(["/onboarding(.*)"]);
 
 const ADMIN_USER_IDS = (process.env.ADMIN_USER_IDS || "").split(",").filter(Boolean);
 
@@ -17,7 +18,7 @@ export default clerkMiddleware(async (auth, req) => {
     }
   }
 
-  if (isCourseRoute(req) || isDashboardRoute(req) || isBookingsRoute(req)) {
+  if (isCourseRoute(req) || isDashboardRoute(req) || isBookingsRoute(req) || isOnboardingRoute(req)) {
     if (!userId) {
       return NextResponse.redirect(new URL("/join", req.url));
     }

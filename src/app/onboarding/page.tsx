@@ -8,7 +8,12 @@ export const metadata: Metadata = {
   title: "Get Started — The Fairway Standard",
 };
 
-export default async function OnboardingPage() {
+export default async function OnboardingPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ role?: string }>;
+}) {
+  const { role: preselectedRole } = await searchParams;
   const { userId } = await auth();
   if (!userId) redirect("/join");
 
@@ -54,6 +59,14 @@ export default async function OnboardingPage() {
             prefill={prefill}
             courses={courses || []}
             existingRoles={roles}
+            preselectedRole={
+              preselectedRole === "caddie" ||
+              preselectedRole === "instructor" ||
+              preselectedRole === "player" ||
+              preselectedRole === "course_manager"
+                ? preselectedRole
+                : undefined
+            }
           />
         </div>
       </div>
