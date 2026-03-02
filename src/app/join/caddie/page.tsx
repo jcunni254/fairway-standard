@@ -120,7 +120,7 @@ export default async function CaddieJoinPage() {
               {
                 step: "02",
                 title: "Get Verified",
-                desc: "Our team reviews your profile. We're looking for knowledge, reliability, and a passion for the game.",
+                desc: "Our team reviews your profile. We\u2019re looking for knowledge, reliability, and a passion for the game.",
               },
               {
                 step: "03",
@@ -161,7 +161,7 @@ export default async function CaddieJoinPage() {
                   More Than Just Carrying a Bag
                 </h2>
                 <p className="mt-4 text-brand-muted leading-relaxed">
-                  Great caddies elevate a round. We're looking for people who
+                  Great caddies elevate a round. We&apos;re looking for people who
                   understand the game, connect with players, and take pride in
                   the experience they deliver.
                 </p>
@@ -265,7 +265,7 @@ export default async function CaddieJoinPage() {
               },
               {
                 title: "Grow With Us",
-                desc: "We're starting local and growing fast. Early caddies build the strongest profiles.",
+                desc: "We\u2019re starting local and growing fast. Early caddies build the strongest profiles.",
               },
             ].map((item) => (
               <StaggerItem key={item.title}>
