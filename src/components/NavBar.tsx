@@ -171,7 +171,7 @@ export default function NavBar() {
       className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
         scrolled
           ? "border-b border-white/10 bg-brand-green-950/90 shadow-lg shadow-black/10 backdrop-blur-xl"
-          : "bg-transparent"
+          : "bg-gradient-to-b from-brand-green-950/80 to-transparent"
       }`}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">

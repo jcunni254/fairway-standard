@@ -38,7 +38,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
-        <body className="font-sans antialiased">
+        <body className="font-display antialiased">
           <PostHogProvider>
             <SmoothScroll>
               <NavBar />
