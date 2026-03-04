@@ -7,6 +7,48 @@ import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
+interface UserLike {
+  firstName?: string | null;
+  lastName?: string | null;
+  imageUrl?: string | null;
+  primaryEmailAddress?: { emailAddress: string } | null;
+}
+
+function getInitials(user: UserLike | null | undefined): string {
+  if (user?.firstName && user?.lastName) return `${user.firstName[0]}${user.lastName[0]}`.toUpperCase();
+  if (user?.firstName) return user.firstName[0].toUpperCase();
+  if (user?.lastName) return user.lastName[0].toUpperCase();
+  const email = user?.primaryEmailAddress?.emailAddress;
+  if (email) return email[0].toUpperCase();
+  return "U";
+}
+
+function UserAvatar({ user, size = 24 }: { user: UserLike | null | undefined; size?: number }) {
+  const initials = getInitials(user);
+  const hasCustomImage = user?.imageUrl && !user.imageUrl.includes("clerk.com/images/default");
+
+  if (hasCustomImage) {
+    return (
+      <Image
+        src={user!.imageUrl!}
+        alt=""
+        width={size}
+        height={size}
+        className="rounded-full"
+      />
+    );
+  }
+
+  return (
+    <div
+      className="flex items-center justify-center rounded-full bg-gradient-to-br from-brand-gold-400 to-brand-gold-600 font-bold text-white shadow-sm"
+      style={{ width: size, height: size, fontSize: size * 0.4 }}
+    >
+      {initials}
+    </div>
+  );
+}
+
 export default function NavBar() {
   const { isSignedIn, user } = useUser();
   const { signOut } = useClerk();
@@ -75,20 +117,8 @@ export default function NavBar() {
         onClick={() => setDropdownOpen(!dropdownOpen)}
         className="flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm transition hover:bg-white/15"
       >
-        {user?.imageUrl ? (
-          <Image
-            src={user.imageUrl}
-            alt=""
-            width={24}
-            height={24}
-            className="rounded-full"
-          />
-        ) : (
-          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-gold-500/30 text-xs font-bold text-brand-gold-400">
-            {user?.firstName?.[0] || "?"}
-          </div>
-        )}
-        <span className="hidden sm:inline">{user?.firstName || "Account"}</span>
+        <UserAvatar user={user} size={24} />
+        <span className="hidden sm:inline">{user?.firstName || user?.lastName || "Account"}</span>
         <svg className={`h-3.5 w-3.5 transition ${dropdownOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
         </svg>
