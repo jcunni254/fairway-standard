@@ -11,6 +11,7 @@ interface UserLike {
   firstName?: string | null;
   lastName?: string | null;
   imageUrl?: string | null;
+  hasImage?: boolean;
   primaryEmailAddress?: { emailAddress: string } | null;
 }
 
@@ -25,12 +26,11 @@ function getInitials(user: UserLike | null | undefined): string {
 
 function UserAvatar({ user, size = 24 }: { user: UserLike | null | undefined; size?: number }) {
   const initials = getInitials(user);
-  const hasCustomImage = user?.imageUrl && !user.imageUrl.includes("clerk.com/images/default");
 
-  if (hasCustomImage) {
+  if (user?.hasImage && user.imageUrl) {
     return (
       <Image
-        src={user!.imageUrl!}
+        src={user.imageUrl}
         alt=""
         width={size}
         height={size}
