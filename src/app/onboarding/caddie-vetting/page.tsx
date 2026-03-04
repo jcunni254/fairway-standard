@@ -32,7 +32,7 @@ export default async function CaddieVettingPage() {
     .eq("caddie_id", userId)
     .maybeSingle();
 
-  if (existing) redirect("/dashboard");
+  if (existing) redirect("/?applied=caddie");
 
   return (
     <div className="min-h-[calc(100vh-65px)] bg-brand-cream">

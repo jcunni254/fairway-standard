@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin";
-import { createClient } from "@supabase/supabase-js";
+import { getAdminSupabase } from "@/lib/supabase-admin";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -16,6 +16,8 @@ export async function PATCH(req: NextRequest, { params }: Props) {
   const allowed: Record<string, boolean> = {
     hourly_rate: true,
     verified: true,
+    vetting_status: true,
+    subscription_status: true,
   };
 
   const updates: Record<string, unknown> = {};
@@ -29,13 +31,11 @@ export async function PATCH(req: NextRequest, { params }: Props) {
 
   updates.updated_at = new Date().toISOString();
 
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
+  const supabase = getAdminSupabase();
 
   const { error } = await supabase
     .from("caddies")
+    // @ts-expect-error - untyped supabase client; updates are validated above
     .update(updates)
     .eq("id", id);
 

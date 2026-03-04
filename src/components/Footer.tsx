@@ -14,7 +14,7 @@ export default function Footer() {
                 <Image src="/logo-horizontal.png" alt="The Fairway Standard" width={180} height={44} className="h-10 w-auto" />
               </Link>
               <p className="mt-4 max-w-xs text-sm leading-relaxed text-brand-green-300/70">
-                Book experienced, vetted caddies for your next round. Better reads. Better strategy. Better golf.
+                Experience the best on the bag.
               </p>
             </div>
 

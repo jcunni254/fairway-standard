@@ -1,5 +1,5 @@
 import { auth } from "@clerk/nextjs/server";
-import { createClient } from "@supabase/supabase-js";
+import { getAdminSupabase } from "@/lib/supabase-admin";
 import { NextRequest, NextResponse } from "next/server";
 
 const VALID_EXPERIENCE = ["none", "casual", "1-3_years", "3+_years"];
@@ -57,10 +57,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
-    );
+    const supabase = getAdminSupabase();
 
     const { data: caddie } = await supabase
       .from("caddies")
@@ -83,13 +80,14 @@ export async function POST(req: NextRequest) {
 
     if (existing) {
       return NextResponse.json(
-        { error: "You have already completed the vetting questionnaire.", redirect: "/dashboard" },
+        { error: "You have already completed the vetting questionnaire.", redirect: "/?applied=caddie" },
         { status: 400 }
       );
     }
 
     const { error: insertError } = await supabase
       .from("caddie_vetting_responses")
+      // @ts-expect-error - untyped supabase client; columns validated above
       .insert({
         caddie_id: userId,
         experience_level,
@@ -108,12 +106,13 @@ export async function POST(req: NextRequest) {
 
     await supabase
       .from("caddies")
+      // @ts-expect-error - untyped supabase client
       .update({ vetting_status: "completed" })
       .eq("id", userId);
 
     return NextResponse.json({
       message: "Vetting complete",
-      redirect: "/dashboard",
+      redirect: "/?applied=caddie",
     });
   } catch {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });

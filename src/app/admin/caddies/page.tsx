@@ -1,6 +1,22 @@
-import { createClient } from "@supabase/supabase-js";
+import { getAdminSupabase } from "@/lib/supabase-admin";
 import CaddieRateEditor from "@/components/CaddieRateEditor";
 import CaddieVettingViewer from "@/components/CaddieVettingViewer";
+import CaddieVettingStatusSelect from "@/components/CaddieVettingStatusSelect";
+
+interface Caddie {
+  id: string;
+  full_name: string;
+  email: string | null;
+  phone: string | null;
+  avatar_url: string | null;
+  bio: string | null;
+  years_experience: number | null;
+  hourly_rate: number | null;
+  verified: boolean;
+  vetting_status: string | null;
+  subscription_status: string;
+  created_at: string;
+}
 
 interface VettingResponse {
   id: string;
@@ -14,17 +30,15 @@ interface VettingResponse {
 }
 
 export default async function AdminCaddiesPage() {
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
+  const supabase = getAdminSupabase();
 
-  const { data: caddies } = await supabase
+  const { data } = await supabase
     .from("caddies")
     .select("*")
     .order("created_at", { ascending: false });
 
-  const caddieIds = caddies?.map((c) => c.id) || [];
+  const caddies = (data || []) as Caddie[];
+  const caddieIds = caddies.map((c) => c.id);
   let vettingMap: Record<string, VettingResponse> = {};
   if (caddieIds.length > 0) {
     const { data: responses } = await supabase
@@ -33,7 +47,7 @@ export default async function AdminCaddiesPage() {
       .in("caddie_id", caddieIds);
     if (responses) {
       for (const r of responses) {
-        vettingMap[r.caddie_id] = r as VettingResponse;
+        vettingMap[(r as VettingResponse).caddie_id] = r as VettingResponse;
       }
     }
   }
@@ -43,12 +57,6 @@ export default async function AdminCaddiesPage() {
     past_due: "bg-yellow-50 text-yellow-700",
     cancelled: "bg-red-50 text-red-700",
     none: "bg-brand-cream text-brand-muted",
-  };
-
-  const vettingStyles: Record<string, string> = {
-    completed: "bg-blue-50 text-blue-700",
-    reviewed: "bg-green-50 text-green-700",
-    pending: "bg-yellow-50 text-yellow-700",
   };
 
   return (
@@ -63,7 +71,7 @@ export default async function AdminCaddiesPage() {
           <thead className="border-b border-brand-border bg-brand-cream">
             <tr>
               <th className="px-4 py-3 font-medium text-brand-charcoal/70">Name</th>
-              <th className="px-4 py-3 font-medium text-brand-charcoal/70">Email</th>
+              <th className="px-4 py-3 font-medium text-brand-charcoal/70">Contact</th>
               <th className="px-4 py-3 font-medium text-brand-charcoal/70">Experience</th>
               <th className="px-4 py-3 font-medium text-brand-charcoal/70">Vetting</th>
               <th className="px-4 py-3 font-medium text-brand-charcoal/70">Subscription</th>
@@ -71,7 +79,7 @@ export default async function AdminCaddiesPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {caddies && caddies.length > 0 ? (
+            {caddies.length > 0 ? (
               caddies.map((caddie) => {
                 const vetting = vettingMap[caddie.id];
                 const vettingStatus = caddie.vetting_status || "pending";
@@ -85,15 +93,21 @@ export default async function AdminCaddiesPage() {
                         </span>
                       )}
                     </td>
-                    <td className="px-4 py-3 text-brand-muted">{caddie.email || "—"}</td>
+                    <td className="px-4 py-3">
+                      <div className="text-brand-muted text-sm">{caddie.email || "—"}</div>
+                      {caddie.phone && (
+                        <div className="text-xs text-brand-muted/70 mt-0.5">{caddie.phone}</div>
+                      )}
+                    </td>
                     <td className="px-4 py-3 text-brand-muted">
                       {caddie.years_experience ? `${caddie.years_experience} yrs` : "—"}
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
-                        <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${vettingStyles[vettingStatus] || vettingStyles.pending}`}>
-                          {vettingStatus}
-                        </span>
+                        <CaddieVettingStatusSelect
+                          caddieId={caddie.id}
+                          currentStatus={vettingStatus}
+                        />
                         {vetting && (
                           <CaddieVettingViewer responses={vetting} caddieName={caddie.full_name} />
                         )}

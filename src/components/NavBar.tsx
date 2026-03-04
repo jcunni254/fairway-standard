@@ -15,7 +15,6 @@ export default function NavBar() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [roles, setRoles] = useState<string[]>([]);
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
-  const [scrolled, setScrolled] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const isAdminPage = pathname.startsWith("/admin");
@@ -37,14 +36,6 @@ export default function NavBar() {
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  useEffect(() => {
-    function handleScroll() {
-      setScrolled(window.scrollY > 20);
-    }
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const isAdmin = roles.includes("admin");
@@ -168,44 +159,42 @@ export default function NavBar() {
       initial={{ y: -80 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-      className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "border-b border-white/10 bg-brand-green-950/90 shadow-lg shadow-black/10 backdrop-blur-xl"
-          : "bg-gradient-to-b from-brand-green-950/80 to-transparent"
-      }`}
+      className="fixed left-0 right-0 top-0 z-50 bg-brand-green-950 shadow-lg shadow-black/10"
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-2.5">
         {/* Logo */}
         <Link href={isAdmin ? "/admin" : "/"} className="flex items-center gap-2.5">
           <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
             <Image
-              src="/logo-horizontal.png"
+              src="/logo-tree-flag-cropped.png"
               alt="The Fairway Standard"
-              width={200}
-              height={48}
-              className="h-10 w-auto sm:h-11"
+              width={567}
+              height={412}
+              className="h-12 w-auto sm:h-14"
               priority
             />
           </motion.div>
         </Link>
 
         {/* Desktop nav */}
-        <div className="hidden items-center gap-7 md:flex">
+        <div className="hidden flex-1 items-center justify-evenly md:flex">
           {isAdminPage ? (
             <UserDropdown />
           ) : (
             <>
+              <NavLink href="/browse?type=instructor">Find an Instructor</NavLink>
               <NavLink href="/browse">Find a Caddie</NavLink>
+              <NavLink href="/join/caddie">Become a Caddie</NavLink>
+              <a
+                href="mailto:support@thefairwaystandard.org"
+                className="relative px-1 py-1 text-sm font-medium text-white/70 transition hover:text-white"
+              >
+                Contact Us
+              </a>
               {isSignedIn ? (
-                <>
-                  {!isProvider && !isCourseManager && (
-                    <NavLink href="/join">Become a Caddie</NavLink>
-                  )}
-                  <UserDropdown />
-                </>
+                <UserDropdown />
               ) : (
                 <>
-                  <NavLink href="/join/caddie">Become a Caddie</NavLink>
                   <SignInButton mode="modal">
                     <motion.button
                       whileHover={{ scale: 1.03 }}
@@ -241,6 +230,7 @@ export default function NavBar() {
           </svg>
         </button>
       </div>
+      <div className="h-1 bg-gradient-to-r from-brand-gold-600 via-brand-gold-400 to-brand-gold-600" />
 
       {/* Mobile menu */}
       <AnimatePresence>
@@ -259,9 +249,18 @@ export default function NavBar() {
                 </button>
               ) : (
                 <>
+                  <Link href="/browse?type=instructor" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white">
+                    Find an Instructor
+                  </Link>
                   <Link href="/browse" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white">
                     Find a Caddie
                   </Link>
+                  <Link href="/join/caddie" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white">
+                    Become a Caddie
+                  </Link>
+                  <a href="mailto:support@thefairwaystandard.org" className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white">
+                    Contact Us
+                  </a>
                   {isSignedIn ? (
                     <>
                       <Link href="/bookings" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white">
@@ -289,9 +288,6 @@ export default function NavBar() {
                     </>
                   ) : (
                     <>
-                      <Link href="/join/caddie" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white">
-                        Become a Caddie
-                      </Link>
                       <div className="my-2 h-px bg-white/10" />
                       <div className="flex flex-col gap-2">
                         <SignInButton mode="modal">

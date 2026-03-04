@@ -13,16 +13,16 @@ export const metadata: Metadata = {
   description: "Sign up as a caddie or golf instructor. Build your reputation and get booked by golfers in your area.",
 };
 
-async function hasProfile(userId: string): Promise<boolean> {
+async function hasRole(userId: string): Promise<boolean> {
   const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
-  const { data } = await supabase.from("profiles").select("id").eq("id", userId).maybeSingle();
-  return !!data;
+  const { data } = await supabase.from("user_roles").select("role").eq("user_id", userId).limit(1);
+  return !!data && data.length > 0;
 }
 
 export default async function JoinPage() {
   const { userId } = await auth();
   if (userId) {
-    const exists = await hasProfile(userId);
+    const exists = await hasRole(userId);
     if (exists) redirect("/dashboard");
   }
 
