@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useUser, useClerk, SignInButton, SignUpButton } from "@clerk/nextjs";
+import { useUser, useClerk, SignUpButton } from "@clerk/nextjs";
 import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -225,7 +225,7 @@ export default function NavBar() {
                 <UserDropdown />
               ) : (
                 <>
-                  <SignInButton mode="modal" forceRedirectUrl="/">
+                  <Link href="/sign-in">
                     <motion.button
                       whileHover={{ scale: 1.03 }}
                       whileTap={{ scale: 0.97 }}
@@ -233,7 +233,7 @@ export default function NavBar() {
                     >
                       Sign In
                     </motion.button>
-                  </SignInButton>
+                  </Link>
                   <SignUpButton mode="modal" forceRedirectUrl="/onboarding">
                     <motion.button
                       whileHover={{ scale: 1.03 }}
@@ -320,11 +320,9 @@ export default function NavBar() {
                     <>
                       <div className="my-2 h-px bg-white/10" />
                       <div className="flex flex-col gap-2">
-                        <SignInButton mode="modal" forceRedirectUrl="/">
-                          <button className="w-full rounded-full border border-white/20 bg-white/10 px-4 py-2.5 text-sm font-medium text-white">
-                            Sign In
-                          </button>
-                        </SignInButton>
+                        <Link href="/sign-in" onClick={() => setMobileOpen(false)} className="w-full rounded-full border border-white/20 bg-white/10 px-4 py-2.5 text-center text-sm font-medium text-white">
+                          Sign In
+                        </Link>
                         <SignUpButton mode="modal" forceRedirectUrl="/onboarding">
                           <button className="w-full rounded-full bg-gradient-to-r from-brand-gold-500 to-brand-gold-400 px-4 py-2.5 text-sm font-semibold text-white">
                             Get Started
