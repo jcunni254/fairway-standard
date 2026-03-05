@@ -21,7 +21,7 @@ const CADDIES = [
     fullName: "Keith McArthur",
     email: "keith.mcarthur@thefairwaystandard.org",
     phone: "(909) 618-9494",
-    password: "StandardCaddie",
+    password: "Caddie2026!",
   },
   {
     firstName: "Preston",
@@ -29,7 +29,7 @@ const CADDIES = [
     fullName: "Preston Cobb",
     email: "preston.cobb@thefairwaystandard.org",
     phone: "+1 (615) 310-7111",
-    password: "StandardCaddie",
+    password: "Caddie2026!",
   },
 ];
 
@@ -157,7 +157,7 @@ async function main() {
   }
 
   console.log("\nBoth caddies are in the system.");
-  console.log("Sign in with email OR phone + password: StandardCaddie");
+  console.log("Sign in with email OR phone + password: Caddie2026!");
   console.log("  Keith:   keith.mcarthur@thefairwaystandard.org or +19096189494");
   console.log("  Preston: preston.cobb@thefairwaystandard.org or +16153107111");
   console.log("Your admin account is unchanged (ADMIN_USER_IDS in .env.local).");

@@ -225,7 +225,7 @@ export default function NavBar() {
                 <UserDropdown />
               ) : (
                 <>
-                  <SignInButton mode="modal">
+                  <SignInButton mode="modal" forceRedirectUrl="/">
                     <motion.button
                       whileHover={{ scale: 1.03 }}
                       whileTap={{ scale: 0.97 }}
@@ -320,7 +320,7 @@ export default function NavBar() {
                     <>
                       <div className="my-2 h-px bg-white/10" />
                       <div className="flex flex-col gap-2">
-                        <SignInButton mode="modal">
+                        <SignInButton mode="modal" forceRedirectUrl="/">
                           <button className="w-full rounded-full border border-white/20 bg-white/10 px-4 py-2.5 text-sm font-medium text-white">
                             Sign In
                           </button>
