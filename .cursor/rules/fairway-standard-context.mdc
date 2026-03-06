@@ -1,0 +1,66 @@
+---
+description: The Fairway Standard project context, tech stack, and conventions
+alwaysApply: true
+---
+
+# The Fairway Standard — Project Context
+
+## What This Project Is
+
+**The Fairway Standard** is a structured, verified performance marketplace for booking vetted caddies and golf instructors. Two-sided marketplace: supply (caddies, instructors) and demand (golfers). Revenue via 12% platform commission on Stripe Connect.
+
+## Tech Stack
+
+| Service | Purpose |
+|---------|---------|
+| Next.js 15 | App framework (App Router, TypeScript, Tailwind) |
+| Clerk | Auth & user management. Client Trust is disabled (Dashboard → Updates) so caddies sign in with phone + password only. Custom sign-in at `/sign-in` handles `needs_client_trust` if re-enabled. |
+| Supabase | PostgreSQL database, RLS policies |
+| Stripe Connect | Payments (Express accounts, 12% fee) |
+| Vercel | Hosting & deployments |
+| Resend | Transactional emails |
+| PostHog | Product analytics |
+| Sentry | Error monitoring |
+
+## Central Knowledge Base
+
+- **Full PRD, schema, gap analysis, sprint plan:** `FAIRWAY_STANDARD_PROJECT.md` (repo root)
+- **Always consult this file** before making architectural decisions or adding features.
+
+## Database Schema (Authoritative)
+
+Role-specific tables: `user_roles`, `players`, `caddies`, `instructors`, `courses`, `caddie_services`, `instructor_services`, `bookings`, `reviews`, `waitlist`, `caddie_vetting_responses`, `interviews`.
+
+**NEVER reference `profiles` or `services` as table names.** These are legacy references that need migration.
+
+## Supabase Client Rules (Critical)
+
+| Context | Client |
+|---------|--------|
+| User-scoped API routes | `createClerkSupabaseClient(getToken)` from `src/lib/supabase.ts` |
+| Admin routes / webhooks | `getAdminSupabase()` from `src/lib/supabase-admin.ts` |
+| Public read-only queries | Anon client acceptable |
+
+**Never** create inline `createClient(URL, SERVICE_ROLE_KEY)`. Use `getAdminSupabase()`.
+
+## Auth / Client Trust
+
+Client Trust (Clerk’s credential-stuffing defense) is **disabled** for simpler caddie sign-in. Trade-off: better UX vs. one less barrier for stolen passwords. Mitigations: strong passwords, small user base. Consider re-enabling in Clerk Dashboard if scale grows or suspicious activity appears.
+
+## Security Non-Negotiables
+
+1. RLS active on every table
+2. No secrets in repo
+3. Stripe webhooks verified with raw body + signature
+4. Webhooks are source of truth for payment state
+5. Service role key is server-only
+6. Admin actions use service role client
+7. Idempotent webhook processing
+8. Pin dependency versions; verify package names
+
+## Brand
+
+- Colors: `brand-green-*` (primary), `navy-*` (secondary), `brand-gold-*` (accent)
+- Use `brand-green-*` not `fairway-*` (both exist, standardize on `brand-green`)
+- Font: Inter (sans), Playfair Display (display)
+- Tone: Professional, structured, premium. No discount vibe. No slang.

@@ -32,6 +32,10 @@ Golf services platform for booking caddies and golf instructors at lower rates.
    npm run dev
    ```
 
-## Project Knowledge Base
+## Project context (single source of truth)
 
-See `FAIRWAY_STANDARD_PROJECT.md` in the parent directory for the full project context, integration order, and platform setup notes.
+This repo is the **canonical** app and project-context repo. Third-party integrations (Builder.io, Vercel, Clerk, etc.) and collaborators are set up here.
+
+- **Full PRD, schema, sprint plan:** `FAIRWAY_STANDARD_PROJECT.md` (repo root)
+- **Onboarding & AI context:** `docs/TEAMMATE_ONBOARDING_PROMPT.md`, `docs/CHATGPT_PLATFORM_CONTEXT.md`, `docs/CHATGPT_25_FILE_BREAKDOWN.md`
+- **Cursor rules:** `.cursor/rules/` (fairway-standard-context.mdc, fairway-standard.mdc)
