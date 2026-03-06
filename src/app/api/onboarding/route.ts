@@ -1,6 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 import { createClient } from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
+import { normalizePhoneToDisplay } from "@/lib/phone";
 
 export async function POST(req: NextRequest) {
   const { userId } = await auth();
@@ -11,6 +12,9 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const { role, fullName, email, avatarUrl, bio, phone, yearsExperience, hourlyRate, courseName, courseAddress, courseCity, courseState, courseZip, coursePhone, courseWebsite } = body;
+
+    const normalizedPhone = phone ? normalizePhoneToDisplay(phone) : null;
+    const normalizedCoursePhone = coursePhone ? normalizePhoneToDisplay(coursePhone) : null;
 
     if (!role || !fullName) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
@@ -45,7 +49,7 @@ export async function POST(req: NextRequest) {
         full_name: fullName,
         email: email || null,
         avatar_url: avatarUrl || null,
-        phone: phone || null,
+        phone: normalizedPhone,
       });
     }
 
@@ -56,7 +60,7 @@ export async function POST(req: NextRequest) {
         email: email || null,
         avatar_url: avatarUrl || null,
         bio: bio || null,
-        phone: phone || null,
+        phone: normalizedPhone,
         years_experience: yearsExperience ? parseInt(yearsExperience) : null,
         subscription_status: "none",
       });
@@ -69,7 +73,7 @@ export async function POST(req: NextRequest) {
         email: email || null,
         avatar_url: avatarUrl || null,
         bio: bio || null,
-        phone: phone || null,
+        phone: normalizedPhone,
         years_experience: yearsExperience ? parseInt(yearsExperience) : null,
         hourly_rate: hourlyRate ? parseFloat(hourlyRate) : null,
       });
@@ -88,7 +92,7 @@ export async function POST(req: NextRequest) {
           city: courseCity || null,
           state: courseState || null,
           zip: courseZip || null,
-          phone: coursePhone || null,
+          phone: normalizedCoursePhone,
           website: courseWebsite || null,
           manager_id: userId,
         })

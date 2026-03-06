@@ -35,12 +35,22 @@ const CADDIES = [
 
 const CLERK_API_BASE = "https://api.clerk.com/v1";
 
-/** Normalize phone to E.164-like form for Clerk (e.g. +19096189494). */
-function normalizePhone(phone) {
+/** Normalize phone to E.164 for Clerk (e.g. +19096189494). */
+function normalizePhoneToE164(phone) {
   const digits = (phone || "").replace(/\D/g, "");
   if (digits.length === 10) return `+1${digits}`;
   if (digits.length === 11 && digits.startsWith("1")) return `+${digits}`;
   return phone ? `+${digits}` : null;
+}
+
+/** Normalize phone to display format for Supabase: +1 (615) 123-1234. */
+function normalizePhoneToDisplay(phone) {
+  const e164 = normalizePhoneToE164(phone);
+  if (!e164) return null;
+  const digits = e164.slice(1);
+  const d = digits.length === 11 && digits.startsWith("1") ? digits.slice(1) : digits.slice(0, 10);
+  if (d.length !== 10) return e164;
+  return `+1 (${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}`;
 }
 
 async function getClerkUserByEmail(secret, email) {
@@ -65,7 +75,7 @@ async function createOrGetClerkUser({ firstName, lastName, email, password, phon
     last_name: lastName,
     password,
   };
-  const phoneNumber = normalizePhone(phone);
+  const phoneNumber = normalizePhoneToE164(phone);
   if (phoneNumber) body.phone_number = [phoneNumber];
 
   const res = await fetch(`${CLERK_API_BASE}/users`, {
@@ -120,7 +130,7 @@ async function upsertCaddieInSupabase(supabase, { userId, fullName, email, phone
       email: email || null,
       avatar_url: null,
       bio: null,
-      phone: phone || null,
+      phone: normalizePhoneToDisplay(phone) || null,
       years_experience: null,
       subscription_status: "none",
     },

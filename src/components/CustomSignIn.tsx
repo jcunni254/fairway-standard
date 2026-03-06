@@ -2,6 +2,7 @@
 
 import { useSignIn } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
+import { isPhoneNumber, normalizePhoneToE164 } from "@/lib/phone";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -42,8 +43,14 @@ export default function CustomSignIn() {
     setLoading(true);
     setDebugInfo("");
 
+    let resolvedIdentifier = identifier.trim();
+    if (isPhoneNumber(resolvedIdentifier)) {
+      const e164 = normalizePhoneToE164(resolvedIdentifier);
+      if (e164) resolvedIdentifier = e164;
+    }
+
     try {
-      const result = await signIn!.create({ identifier: identifier.trim() });
+      const result = await signIn!.create({ identifier: resolvedIdentifier });
       setDebugInfo(`Status after identifier: ${result.status}`);
 
       if (result.status === "needs_first_factor") {

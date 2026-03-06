@@ -1,15 +1,19 @@
 import { createClient } from "@supabase/supabase-js";
 
+const ADMIN_USER_IDS = (process.env.ADMIN_USER_IDS || "").split(",").filter(Boolean);
+
 export default async function AdminPlayersPage() {
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 
-  const { data: players } = await supabase
+  const { data: rawPlayers } = await supabase
     .from("players")
     .select("*")
     .order("created_at", { ascending: false });
+
+  const players = (rawPlayers || []).filter((p) => !ADMIN_USER_IDS.includes(p.id));
 
   return (
     <div>

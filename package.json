@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@builder.io/sdk-react": "^5.2.0",
     "@clerk/nextjs": "^6.12.12",
     "@sentry/nextjs": "^10.40.0",
     "@studio-freight/lenis": "^1.0.42",

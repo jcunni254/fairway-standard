@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { normalizePhoneToDisplay } from "@/lib/phone";
 
 type Role = "player" | "caddie" | "instructor" | "course_manager";
 
@@ -60,7 +61,7 @@ export default function OnboardingForm({ prefill, courses, existingRoles, presel
         email: prefill.email,
         avatarUrl: prefill.avatarUrl,
         bio: form.bio || null,
-        phone: form.phone || null,
+        phone: form.phone ? normalizePhoneToDisplay(form.phone) : null,
         yearsExperience: form.yearsExperience || null,
         hourlyRate: form.hourlyRate || null,
         courseName: form.courseName || null,
@@ -68,7 +69,7 @@ export default function OnboardingForm({ prefill, courses, existingRoles, presel
         courseCity: form.courseCity || null,
         courseState: form.courseState || null,
         courseZip: form.courseZip || null,
-        coursePhone: form.coursePhone || null,
+        coursePhone: form.coursePhone ? normalizePhoneToDisplay(form.coursePhone) : null,
         courseWebsite: form.courseWebsite || null,
       }),
     });
@@ -136,7 +137,7 @@ export default function OnboardingForm({ prefill, courses, existingRoles, presel
                 <label className="block text-sm font-medium text-brand-charcoal">Phone</label>
                 <input
                   type="tel"
-                  placeholder="(555) 123-4567"
+                  placeholder="+1 (615) 123-4567"
                   value={form.phone}
                   onChange={(e) => update("phone", e.target.value)}
                   className="mt-1 w-full rounded-lg border border-brand-border px-4 py-3 text-sm shadow-sm focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"

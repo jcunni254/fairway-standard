@@ -210,6 +210,14 @@ export default function NavBar() {
         <div className="hidden flex-1 items-center justify-evenly md:flex">
           {isAdminPage ? (
             <UserDropdown />
+          ) : isSignedIn && isCaddie ? (
+            <>
+              <NavLink href="/dashboard/profile">My Profile</NavLink>
+              <NavLink href="/dashboard/schedule">Schedule</NavLink>
+              <NavLink href="/dashboard/social">Social</NavLink>
+              <NavLink href="/contact">Contact Us</NavLink>
+              <UserDropdown />
+            </>
           ) : (
             <>
               <NavLink href="/browse?type=instructor">Find an Instructor</NavLink>
@@ -277,6 +285,36 @@ export default function NavBar() {
                 <button onClick={() => { setMobileOpen(false); signOut({ redirectUrl: "/" }); }} className="rounded-lg px-3 py-2.5 text-left text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white">
                   Sign Out
                 </button>
+              ) : isSignedIn && isCaddie ? (
+                <>
+                  <Link href="/dashboard/profile" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white">
+                    My Profile
+                  </Link>
+                  <Link href="/dashboard/schedule" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white">
+                    Schedule
+                  </Link>
+                  <Link href="/dashboard/social" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white">
+                    Social
+                  </Link>
+                  <Link href="/contact" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white">
+                    Contact Us
+                  </Link>
+                  <Link href="/dashboard" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white">
+                    Dashboard
+                  </Link>
+                  <Link href="/bookings" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white">
+                    My Bookings
+                  </Link>
+                  {isAdmin && (
+                    <Link href="/admin" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2.5 text-sm font-medium text-brand-gold-400 transition hover:bg-white/10 hover:text-white">
+                      Admin Panel
+                    </Link>
+                  )}
+                  <div className="my-1 h-px bg-white/10" />
+                  <button onClick={() => { setMobileOpen(false); signOut({ redirectUrl: "/" }); }} className="rounded-lg px-3 py-2.5 text-left text-sm font-medium text-red-400 transition hover:bg-red-500/10">
+                    Sign Out
+                  </button>
+                </>
               ) : (
                 <>
                   <Link href="/browse?type=instructor" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white">

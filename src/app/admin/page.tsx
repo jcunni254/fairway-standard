@@ -1,12 +1,14 @@
 import { createClient } from "@supabase/supabase-js";
 import Link from "next/link";
 
+const ADMIN_USER_IDS = (process.env.ADMIN_USER_IDS || "").split(",").filter(Boolean);
+
 export default async function AdminOverview() {
   const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
 
   const [playersRes, caddiesRes, instructorsRes, coursesRes, bookingsRes, activeSubsRes, interviewsRes] =
     await Promise.all([
-      supabase.from("players").select("id", { count: "exact", head: true }),
+      supabase.from("players").select("id"),
       supabase.from("caddies").select("id", { count: "exact", head: true }),
       supabase.from("instructors").select("id", { count: "exact", head: true }),
       supabase.from("courses").select("id", { count: "exact", head: true }),
@@ -20,6 +22,9 @@ export default async function AdminOverview() {
   const revenue = completed.reduce((s, b) => s + Number(b.total_price || 0), 0);
   const pending = bookings.filter((b) => b.status === "pending");
 
+  const playersData = playersRes.data || [];
+  const playerCount = playersData.filter((p) => !ADMIN_USER_IDS.includes(p.id)).length;
+
   return (
     <div>
       <h1 className="font-display text-2xl font-bold text-brand-charcoal">Dashboard</h1>
@@ -29,7 +34,7 @@ export default async function AdminOverview() {
         {[
           { label: "Caddies", value: caddiesRes.count || 0, href: "/admin/caddies", color: "brand-green" },
           { label: "Instructors", value: instructorsRes.count || 0, href: "/admin/instructors", color: "navy" },
-          { label: "Players", value: playersRes.count || 0, href: "/admin/players", color: "gray" },
+          { label: "Players", value: playerCount, href: "/admin/players", color: "gray" },
           { label: "Courses", value: coursesRes.count || 0, href: "/admin/courses", color: "gray" },
         ].map((s) => (
           <Link key={s.label} href={s.href} className="group rounded-xl border border-brand-border bg-white p-6 shadow-sm transition hover:border-brand-gold-300 hover:shadow-md">
