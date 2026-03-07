@@ -236,7 +236,7 @@ export default function CustomSignIn() {
               type="text"
               value={identifier}
               onChange={(e) => setIdentifier(e.target.value)}
-              placeholder="+1 (615) 310-7111"
+              placeholder="(123) 456-7890"
               autoFocus
               className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-3 text-brand-charcoal placeholder-gray-400 focus:border-brand-green-500 focus:outline-none focus:ring-2 focus:ring-brand-green-500/20"
             />
