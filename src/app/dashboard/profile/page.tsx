@@ -156,6 +156,8 @@ export default async function DashboardProfilePage() {
       roleLabel,
       verified: row.verified,
       subscriptionStatus: row.subscription_status ?? null,
+      homeCourse,
+      hometown: hometown ?? null,
       isCaddie,
       phone: row.phone ?? null,
       email: row.email ?? null,
