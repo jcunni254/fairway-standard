@@ -14,6 +14,8 @@ export interface BuilderProfileData {
     roleLabel: string;
     verified: boolean;
     subscriptionStatus: string | null;
+    homeCourse: string | null;
+    hometown: string | null;
     isCaddie: boolean;
     phone: string | null;
     email: string | null;

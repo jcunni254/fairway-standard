@@ -70,9 +70,9 @@ export default function ProfileEditForm({ initial, roleLabel }: Props) {
   }
 
   return (
-    <div className="rounded-2xl border border-brand-border bg-white p-6 shadow-sm">
+    <div className="rounded-xl border border-brand-border bg-white p-4 shadow-sm">
       <div className="flex items-center justify-between">
-        <h2 className="font-display text-lg font-semibold text-brand-charcoal">Edit profile</h2>
+        <h2 className="font-display text-sm font-semibold text-brand-charcoal">Edit profile</h2>
         {!editing ? (
           <button
             type="button"
@@ -211,8 +211,8 @@ export default function ProfileEditForm({ initial, roleLabel }: Props) {
           </div>
         </form>
       ) : (
-        <p className="mt-2 text-sm text-brand-muted">
-          Update your name, photo, hometown, home course, bio, phone, and experience.
+        <p className="mt-2 text-xs text-brand-muted">
+          Update name, photo, hometown, home course, bio, phone, and experience.
         </p>
       )}
     </div>
