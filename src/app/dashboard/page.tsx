@@ -220,12 +220,19 @@ export default async function DashboardPage() {
           </div>
           <p className="mt-3 text-brand-charcoal/70">{profile.bio}</p>
           {profile.phone && <p className="mt-2 text-sm text-brand-muted">{profile.phone}</p>}
-          <p className="mt-4 text-sm text-brand-muted">
-            Your public profile:{" "}
-            <Link href={`/providers/${userId}`} className="font-medium text-brand-green-600 hover:underline">
-              View →
-            </Link>
-          </p>
+          <div className="mt-4 flex flex-wrap gap-4 text-sm">
+            {isCaddie && (
+              <Link href="/caddie/profile" className="font-medium text-brand-green-600 hover:underline">
+                My Profile (edit & view) →
+              </Link>
+            )}
+            <span className="text-brand-muted">
+              Your public profile:{" "}
+              <Link href={`/providers/${userId}`} className="font-medium text-brand-green-600 hover:underline">
+                View →
+              </Link>
+            </span>
+          </div>
         </div>
 
         {/* Stripe Connect (for receiving booking payments) */}

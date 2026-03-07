@@ -27,7 +27,8 @@ export default async function Home({ searchParams }: HomeProps) {
     const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
     const { data: roles } = await supabase.from("user_roles").select("role").eq("user_id", userId);
     const roleList = roles?.map((r) => r.role) || [];
-    if (roleList.includes("caddie") || roleList.includes("instructor")) redirect("/dashboard");
+    if (roleList.includes("caddie")) redirect("/caddie/profile");
+    if (roleList.includes("instructor")) redirect("/dashboard");
     if (roleList.includes("course_manager")) redirect("/course");
     if (roleList.includes("player")) redirect("/browse");
   }

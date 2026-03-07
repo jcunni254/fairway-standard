@@ -212,7 +212,7 @@ export default function NavBar() {
             <UserDropdown />
           ) : isSignedIn && isCaddie ? (
             <>
-              <NavLink href="/dashboard/profile">My Profile</NavLink>
+              <NavLink href="/caddie/profile">My Profile</NavLink>
               <NavLink href="/dashboard/schedule">Schedule</NavLink>
               <NavLink href="/dashboard/social">Social</NavLink>
               <NavLink href="/contact">Contact Us</NavLink>
@@ -287,7 +287,7 @@ export default function NavBar() {
                 </button>
               ) : isSignedIn && isCaddie ? (
                 <>
-                  <Link href="/dashboard/profile" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white">
+                  <Link href="/caddie/profile" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white">
                     My Profile
                   </Link>
                   <Link href="/dashboard/schedule" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white">

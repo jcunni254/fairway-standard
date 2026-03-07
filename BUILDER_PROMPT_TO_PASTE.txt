@@ -1,0 +1,24 @@
+Build a single Page (not a component) for a caddie profile dashboard. This page will be loaded at the exact URL path: /dashboard/profile — so set this page’s URL to /dashboard/profile.
+
+Design a professional, social-style caddie profile that matches “The Fairway Standard” brand:
+- Primary color: dark green (e.g. #0b2514 or #154528) for headers and key UI.
+- Background: light cream/off-white (#faf8f5 or #f5f5f2).
+- Accent: gold (#c9a84c or #9e7c1d) for badges, ratings, and highlights.
+- Fonts: clean sans-serif for body; a display font for the caddie name.
+- Tone: premium, structured, no discount vibe.
+
+Layout (use Sections, Columns, Text, Image):
+1. Hero: Full-width strip at top (dark green gradient). Below it, a white card that overlaps the hero with:
+   - Large circular profile image (bind Image src to state.profile.avatarUrl; if empty show initials from state.profile.clerkInitials).
+   - Caddie name (bind Text to state.profile.displayName).
+   - Location line (bind to state.profile.locationLine) — e.g. “Nashville, TN · Belle Meade Country Club”.
+   - Role badge: state.profile.roleLabel (e.g. “Caddie”). Optionally show “Verified” if state.profile.verified is true, and subscription status from state.profile.subscriptionStatus.
+   - If state.reviewCount > 0: show state.averageRating (e.g. “4.8”) with star icons and “Based on state.reviewCount reviews”.
+2. About: Section with heading “About” and body text bound to state.profile.bio.
+3. Experience: Section with heading “Experience” and text showing state.profile.yearsExperience (e.g. “5 years of experience” or “—” if null).
+4. Reviews & ratings: Section “Reviews & ratings”. If state.reviewCount is 0, show “No reviews yet. Complete bookings to build your reputation.” Otherwise show the aggregate (state.averageRating, state.reviewCount) and a list of reviews from state.reviews — each item has state.reviews[].reviewer_name, state.reviews[].rating (stars), state.reviews[].comment, state.reviews[].created_at (formatted as relative time, e.g. “2 months ago”).
+5. Contact: Section with state.profile.phone and state.profile.email.
+
+Critical: Every piece of dynamic content must use State bindings so our app can inject real data. Use exactly: state.profile.displayName, state.profile.avatarUrl, state.profile.locationLine, state.profile.bio, state.profile.yearsExperience, state.profile.roleLabel, state.profile.verified, state.profile.subscriptionStatus, state.profile.clerkInitials, state.profile.phone, state.profile.email, state.reviews (array), state.reviewCount, state.averageRating, state.userId. Do not hardcode sample text for name, bio, or reviews — only bind to state.
+
+Output a single Page entry with URL /dashboard/profile, ready to publish. Keep the structure simple (sections and blocks) so it can be rendered by a Builder.io Content component that receives this state from our Next.js app.

@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 const isAdminRoute = createRouteMatcher(["/admin(.*)"]);
 const isCourseRoute = createRouteMatcher(["/course(.*)"]);
 const isDashboardRoute = createRouteMatcher(["/dashboard(.*)"]);
+const isCaddieRoute = createRouteMatcher(["/caddie(.*)"]);
 const isBookingsRoute = createRouteMatcher(["/bookings(.*)"]);
 const isOnboardingRoute = createRouteMatcher(["/onboarding(.*)"]);
 
@@ -18,7 +19,7 @@ export default clerkMiddleware(async (auth, req) => {
     }
   }
 
-  if (isCourseRoute(req) || isDashboardRoute(req) || isBookingsRoute(req) || isOnboardingRoute(req)) {
+  if (isCourseRoute(req) || isDashboardRoute(req) || isCaddieRoute(req) || isBookingsRoute(req) || isOnboardingRoute(req)) {
     if (!userId) {
       return NextResponse.redirect(new URL("/join", req.url));
     }
